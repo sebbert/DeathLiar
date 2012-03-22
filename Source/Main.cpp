@@ -1,19 +1,17 @@
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
+#include "World.h"
 #include <iostream>
 
 int main()
 {
     std::cout << "Opening a window..." << std::endl;
 
-    sf::RenderWindow app(sf::VideoMode(800, 600, 32), "AI Fun");
-    app.SetFramerateLimit(30);
+    gWorld.Init();
 
     bool running = true;
     while(running)
     {
         sf::Event event;
-        while(app.GetEvent(event))
+        while(gWindow->GetEvent(event))
         {
             if(event.Type == sf::Event::Closed)
             {
@@ -21,8 +19,8 @@ int main()
             }
         }
         
-        app.Clear(sf::Color(255, 255, 255));
-        app.Display();
+        gWindow->Clear(sf::Color(255, 255, 255));
+        gWindow->Display();
     }
 
     return EXIT_SUCCESS;
