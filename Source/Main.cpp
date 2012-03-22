@@ -17,6 +17,10 @@ int main()
             {
                 running = false;
             }
+            if(event.Type == sf::Event::KeyPressed && event.Key.Code == sf::Key::Escape)
+            {
+                running = false;
+            }
         }
         
         gWindow->Clear(sf::Color(255, 255, 255));

@@ -1,5 +1,5 @@
 /**
-* Part of AI Fun
+* Part of Deathliar
 * Copyright (c) Emil Sandstø 2012
 */
 #ifndef VEC2D_H
