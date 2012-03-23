@@ -6,6 +6,11 @@ void World::Init()
     m_window.SetFramerateLimit(30);
 }
 
+void Update()
+{
+
+}
+
 void World::Destroy()
 {
 }

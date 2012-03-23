@@ -1,4 +1,5 @@
 #include "World.h"
+#include "Entity.h"
 #include <iostream>
 
 int main()
@@ -6,6 +7,8 @@ int main()
     std::cout << "Opening a window..." << std::endl;
 
     gWorld.Init();
+    Entity entity;
+    entity.SetSprite("");
 
     bool running = true;
     while(running)
@@ -24,6 +27,7 @@ int main()
         }
         
         gWindow->Clear(sf::Color(255, 255, 255));
+        
         gWindow->Display();
     }
 

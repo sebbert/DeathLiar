@@ -32,5 +32,10 @@ set(SRCS
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin/")
 
-add_executable(Bridge ${HDRS} ${SRCS})
-target_link_libraries(Bridge ${LIBS})
+if (MSVC_IDE)
+    # hack to get around the "Debug" and "Release" directories cmake tries to add on Windows
+    set_target_properties (${NAME} PROPERTIES PREFIX "../")
+endif()
+
+add_executable(Deathliar ${HDRS} ${SRCS})
+target_link_libraries(Deathliar ${LIBS})

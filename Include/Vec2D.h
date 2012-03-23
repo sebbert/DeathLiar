@@ -245,9 +245,11 @@ inline Vec2D Normalize(const Vec2D &a)
  * @param vec The vector to create a SFML vector of.
  * @return The SFML vector of the vector.
  */
-sf::Vec2f operator = (const Vec2D& vec)
+/*
+void operator =(sf::Vector2f &a, const Vec2D& b)
 {
-    return sf::Vec2f(vec.x, vec.y);
+    a.x = b.x;
+    a.y = b.y;
 }
-
+*/
 #endif

@@ -15,6 +15,9 @@ class World
 {
 public:
     void Init();
+
+    void Update();
+
     void Destroy();
 
     static World &Instance()
@@ -28,6 +31,10 @@ public:
         return &m_window;
     }
 
+    float GetFrameTime()
+    {
+        return m_window.GetFrameTime();
+    }
 private:
     World() {}
     World(const World&) {}

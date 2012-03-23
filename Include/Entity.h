@@ -13,10 +13,11 @@ public:
     void SetSprite(sf::Image &image);
     bool SetSprite(const char *fileName);
     
-    void Draw();
+    virtual void Update(Real duration);
+    virtual void Draw(Real duration);
 protected:
-    Vec2D m_position;
-    sf::Sprite m_sprite;
+    Vec2D m_position;///< Position of a entity.
+    sf::Sprite m_sprite;///< Sprite of a entity.
 };
 
 #endif
