@@ -18,6 +18,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Include)
 set(LIBS ${LIBS} ${SFML_LIBRARIES})
 
 set(HDRS 
+	${INC_PATH}/Enemy.h
 	${INC_PATH}/Entity.h
 	${INC_PATH}/MathUtil.h
 	${INC_PATH}/ResourceMgr.h
@@ -26,6 +27,7 @@ set(HDRS
 )
 set(SRCS 
 	${SRC_PATH}/Entity.cpp
+	${SRC_PATH}/Enemy.cpp
 	${SRC_PATH}/Main.cpp
 	${SRC_PATH}/ResourceMgr.cpp
 	${SRC_PATH}/World.cpp)

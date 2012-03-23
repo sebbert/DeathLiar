@@ -53,6 +53,8 @@ public:
 	 */
 	void SetPlayerPosition(Vec2D& pos);
 
+    void SetPosition(Vec2D& pos);
+
 	/**
 	 * Makes the AI think.
 	 */
