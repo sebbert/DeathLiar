@@ -29,13 +29,23 @@ void Player::HandleEvents(sf::Event &event)
             m_velocity.y = -m_forwardSpeed;
         }
     }
+
+    if(event.Type == sf::Event::KeyReleased)
+    {
+        if(event.Key.Code == sf::Key::A || event.Key.Code == sf::Key::D)
+        {
+            m_velocity.x = 0;
+        }
+        else if(event.Key.Code == sf::Key::S || event.Key.Code == sf::Key::W)
+        {
+            m_velocity.y = 0;
+        }
+    }
 }
 
 void Player::Update(Real duration)
 {
     m_position += m_velocity * duration;
-
-    m_velocity.Zero();
 
     sf::Vector2f *vec = (sf::Vector2f *)&m_position;
     m_sprite.SetPosition(*vec);
