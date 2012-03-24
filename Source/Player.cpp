@@ -3,9 +3,9 @@
 
 Player::Player()
 {
-    m_sideSpeed = 50.0;
-    m_forwardSpeed = 64.0;
-    m_backwardSpeed = 64.0;
+    m_sideSpeed = 250.0;
+    m_forwardSpeed = 250.0;
+    m_backwardSpeed = 250.0;
 }
 
 void Player::HandleEvents(sf::Event &event)
