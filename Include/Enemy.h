@@ -56,9 +56,9 @@ public:
     void SetPosition(Vec2D& pos);
 
 	/**
-	 * Makes the AI think.
+	 * Updates the AI.
 	 */
-	void Think();
+	void Update(Real duration);
 
 	/**
 	 * Sets the speed of the enemy.

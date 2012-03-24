@@ -46,11 +46,11 @@ void Enemy::SetPlayerPosition(Vec2D& pos)
 	m_PlayerPosition = pos;
 }
 
-void Enemy::Think()
+void Enemy::Update(Real duration)
 {
     Vec2D move = m_PlayerPosition - m_position;
 	move.Normalize();
-	move *= m_Speed;
+	move *= m_Speed * duration;
 }
 
 void Enemy::SetSpeed(Real speed)
