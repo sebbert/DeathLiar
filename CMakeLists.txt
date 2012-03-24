@@ -18,26 +18,29 @@ include_directories(${PROJECT_SOURCE_DIR}/Include)
 set(LIBS ${LIBS} ${SFML_LIBRARIES})
 
 set(HDRS 
+	${INC_PATH}/Player.h
 	${INC_PATH}/Enemy.h
 	${INC_PATH}/Entity.h
 	${INC_PATH}/MathUtil.h
 	${INC_PATH}/ResourceMgr.h
 	${INC_PATH}/Vec2D.h
-	${INC_PATH}/World.h
-)
+	${INC_PATH}/World.h)
+
 set(SRCS 
 	${SRC_PATH}/Entity.cpp
 	${SRC_PATH}/Enemy.cpp
 	${SRC_PATH}/Main.cpp
 	${SRC_PATH}/ResourceMgr.cpp
-	${SRC_PATH}/World.cpp)
+	${SRC_PATH}/World.cpp
+	${SRC_PATH}/Player.cpp)
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin/")
 
+add_executable(Deathliar ${HDRS} ${SRCS})
+
 if (MSVC_IDE)
     # hack to get around the "Debug" and "Release" directories cmake tries to add on Windows
-    set_target_properties (${NAME} PROPERTIES PREFIX "../")
+    set_target_properties (Deathliar PROPERTIES PREFIX "../")
 endif()
 
-add_executable(Deathliar ${HDRS} ${SRCS})
 target_link_libraries(Deathliar ${LIBS})

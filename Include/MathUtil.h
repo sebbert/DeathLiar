@@ -26,17 +26,17 @@
 #endif
 
 const int MaxInt = (std::numeric_limits<int>::max)();
-const double MaxReal = (std::numeric_limits<Real>::max)();
-const double MinReal = (std::numeric_limits<Real>::min)();
+const double MaxReal = (std::numeric_limits<float>::max)();
+const double MinReal = (std::numeric_limits<float>::min)();
 
 inline Real RadToDeg(Real rad)
 {
-    return _180_OVER_PI * rad;
+    return (Real)_180_OVER_PI * rad;
 }
 
 inline Real DegToRad(Real deg)
 {
-    return PI_OVER_180 * deg;
+    return (Real)PI_OVER_180 * deg;
 }
 
 inline bool IsEqual(Real x, Real y)

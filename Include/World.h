@@ -7,9 +7,11 @@
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include "MathUtil.h"
+#include "Player.h"
 
-#define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 800
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
 
 class World
 {
@@ -31,18 +33,26 @@ public:
         return &m_window;
     }
 
-    float GetFrameTime()
+    Real GetFrameTime()
     {
-        return m_window.GetFrameTime();
+        return (Real)m_window.GetFrameTime();
+    }
+
+    bool GameOn()
+    {
+        return m_bGameOn;
     }
 private:
     World() {}
     World(const World&) {}
     World operator =(const World&) {}
 
+    Player m_player;///< User controlled entity.
     sf::RenderWindow m_window;///< Handle the window.
+
+    bool m_bGameOn;///< True if game should run.
 };
 
 #define gWorld World::Instance()
-#define gWindow gWorld.GetWindow()
+#define gWindow World::Instance().GetWindow()
 #endif

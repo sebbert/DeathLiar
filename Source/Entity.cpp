@@ -1,5 +1,13 @@
 #include "Entity.h"
 #include "ResourceMgr.h"
+#include "World.h"
+
+sf::Uint16 Entity::sNextID = 0;
+
+Entity::Entity()
+{
+    m_id = GetNextID();
+}
 
 bool Entity::SetSprite(const char *fileName)
 {
@@ -8,8 +16,8 @@ bool Entity::SetSprite(const char *fileName)
     {
         m_sprite.SetImage(*image);
     }
-
-    return image;
+    
+    return (bool)image;
 }
 
 void Entity::SetSprite(sf::Image &image)

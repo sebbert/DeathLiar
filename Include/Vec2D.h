@@ -158,7 +158,7 @@ public:
         Real mag = sqrt(x * x + y * y);
         if(mag > 0)
         {
-            Real oneOverMag = 1.0 / mag;
+            Real oneOverMag = (Real)1.0 / mag;
             x *= oneOverMag;
             y *= oneOverMag;
         }
@@ -186,6 +186,15 @@ public:
             x *= max;
             y *= max;
         }
+    }
+
+    /**
+     * Copy data from a SFML vector.
+     */
+    void operator =(sf::Vector2f &a)
+    {
+        x = a.x;
+        y = a.y;
     }
 
     /**
@@ -232,7 +241,7 @@ inline Vec2D Normalize(const Vec2D &a)
     Real mag = sqrt(tmp.x * tmp.x + tmp.y * tmp.y);
     if(mag > 0)
     {
-        Real oneOverMag = 1.0 / mag;
+        Real oneOverMag = (Real)1.0 / mag;
         tmp.x *= oneOverMag;
         tmp.y *= oneOverMag;
     }
@@ -240,16 +249,18 @@ inline Vec2D Normalize(const Vec2D &a)
     return tmp;
 }
 
+
 /**
  * Returns a SFML vector of a vector.
  * @param vec The vector to create a SFML vector of.
  * @return The SFML vector of the vector.
- */
-/*
-void operator =(sf::Vector2f &a, const Vec2D& b)
+ *//*
+template <typename T>
+void operator =(sf::Vector2<T> &a, const Vec2D& b)
 {
-    a.x = b.x;
-    a.y = b.y;
+    //a.x = b.x;
+    //a.y = b.y;
 }
 */
+
 #endif
