@@ -51,6 +51,12 @@ public:
         y = c.y;
     }
 
+    void Zero()
+    {
+        x = 0.0;
+        y = 0.0;
+    }
+
     /**
      * Adds two vectors together and returns the result.
      * @param a The vector to add.

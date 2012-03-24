@@ -3,57 +3,45 @@
 
 Player::Player()
 {
-    m_sideSpeed = 100.0;
+    m_sideSpeed = 200.0;
     m_forwardSpeed = 100.0;
     m_backwardSpeed = 100.0;
+    m_accSpeed = 100.0;
 }
 
 void Player::HandleEvents(sf::Event &event)
 {
     if(event.Type == sf::Event::KeyPressed)
     {
-        if(event.Key.Code == sf::Key::Left)
+        if(event.Key.Code == sf::Key::A)
         {
-            m_velocity.x = -m_sideSpeed;
+            m_acceleration.x = -m_accSpeed;
         }
-        else if(event.Key.Code == sf::Key::Right)
+        else if(event.Key.Code == sf::Key::D)
         {
-            m_velocity.x = m_sideSpeed;
+            m_acceleration.x = m_accSpeed;
         }
-        else if(event.Key.Code == sf::Key::Down)
+        else if(event.Key.Code == sf::Key::S)
         {
-            m_velocity.y = m_backwardSpeed;
+            m_acceleration.y = m_accSpeed;
         }
-        else if(event.Key.Code == sf::Key::Up)
+        else if(event.Key.Code == sf::Key::W)
         {
-            m_velocity.y = -m_forwardSpeed;
-        }
-    }
-
-    if(event.Type == sf::Event::KeyReleased)
-    {
-        if(event.Key.Code == sf::Key::Left)
-        {
-            m_velocity.x = 0;
-        }
-        else if(event.Key.Code == sf::Key::Right)
-        {
-            m_velocity.x = 0;
-        }
-        else if(event.Key.Code == sf::Key::Down)
-        {
-            m_velocity.y = 0;
-        }
-        else if(event.Key.Code == sf::Key::Up)
-        {
-            m_velocity.y = 0;
+            m_acceleration.y = -m_accSpeed;
         }
     }
 }
 
 void Player::Update(Real duration)
 {
+    m_velocity += m_acceleration * duration;
+    m_acceleration.Zero();
+    m_velocity.Truncate(m_sideSpeed);
+
     m_position += m_velocity * duration;
+
+    m_velocity *= 0.97;
+
     sf::Vector2f *vec = (sf::Vector2f *)&m_position;
     m_sprite.SetPosition(*vec);
 }
