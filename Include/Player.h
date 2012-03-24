@@ -37,9 +37,7 @@ public:
     void Update(Real duration);
 private:
     Vec2D m_velocity;///< Velocity of player.
-    Vec2D m_acceleration;///< Acceleration of player.
 
-    Real m_accSpeed;///< How much to alter acceleration of a player.
     Real m_forwardSpeed;///< Forward speed of a player.
     Real m_backwardSpeed;///< Backward speed of a player.
     Real m_sideSpeed;///< Speed of going left and right.

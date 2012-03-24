@@ -36,7 +36,7 @@ public:
     Real GetFrameTime()
     {
         //return (Real)m_window.GetFrameTime();
-        return 0.33;
+        return (Real)0.33;
     }
 
     bool GameOn()

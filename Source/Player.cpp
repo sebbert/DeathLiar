@@ -4,9 +4,8 @@
 Player::Player()
 {
     m_sideSpeed = 50.0;
-    m_forwardSpeed = 100.0;
-    m_backwardSpeed = 100.0;
-    m_accSpeed = 100.0;
+    m_forwardSpeed = 64.0;
+    m_backwardSpeed = 64.0;
 }
 
 void Player::HandleEvents(sf::Event &event)
@@ -15,32 +14,28 @@ void Player::HandleEvents(sf::Event &event)
     {
         if(event.Key.Code == sf::Key::A)
         {
-            m_acceleration.x = -m_accSpeed;
+            m_velocity.x = -m_sideSpeed;
         }
         else if(event.Key.Code == sf::Key::D)
         {
-            m_acceleration.x = m_accSpeed;
+            m_velocity.x = m_sideSpeed;
         }
         else if(event.Key.Code == sf::Key::S)
         {
-            m_acceleration.y = m_accSpeed;
+            m_velocity.y = m_backwardSpeed;
         }
         else if(event.Key.Code == sf::Key::W)
         {
-            m_acceleration.y = -m_accSpeed;
+            m_velocity.y = -m_forwardSpeed;
         }
     }
 }
 
 void Player::Update(Real duration)
 {
-    m_velocity += m_acceleration * duration;
-    m_acceleration.Zero();
-    m_velocity.Truncate(m_sideSpeed);
-
     m_position += m_velocity * duration;
 
-    m_velocity *= 0.97;
+    m_velocity.Zero();
 
     sf::Vector2f *vec = (sf::Vector2f *)&m_position;
     m_sprite.SetPosition(*vec);
