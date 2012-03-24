@@ -3,10 +3,10 @@
 
 Player::Player()
 {
-    m_sideSpeed = 200.0;
+    m_sideSpeed = 50.0;
     m_forwardSpeed = 100.0;
     m_backwardSpeed = 100.0;
-    m_accSpeed = 200.0;
+    m_accSpeed = 100.0;
 }
 
 void Player::HandleEvents(sf::Event &event)
