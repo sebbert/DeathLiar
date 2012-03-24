@@ -45,7 +45,9 @@ void Player::HandleEvents(sf::Event &event)
 
 void Player::Update(Real duration)
 {
-    m_position += m_velocity * duration;
+    Vec2D tmp = m_velocity;
+    tmp.Truncate(m_sideSpeed);
+    m_position += tmp * duration;
 
     sf::Vector2f *vec = (sf::Vector2f *)&m_position;
     m_sprite.SetPosition(*vec);
