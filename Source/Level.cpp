@@ -64,7 +64,7 @@ void Level::Draw()
         {
             point = m_position;
             point += m_zonePositions[zones[i]];
-
+            
             m_zones[zones[i]].SetPosition(point.x, point.y);
             gWindow->Draw(m_zones[zones[i]]);
         }
