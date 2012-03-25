@@ -23,23 +23,11 @@ Enemy::Enemy()
 	m_Lives = 0;
 	m_MaxHealth = 0;
 	m_Health = 0;
-
-	Init();
 }
 
 Enemy::~Enemy()
 {
-	Destroy();
-}
-
-void Enemy::Init()
-{
-
-}
-
-void Enemy::Destroy()
-{
-
+	
 }
 
 void Enemy::SetPosition(Vec2D& pos)
