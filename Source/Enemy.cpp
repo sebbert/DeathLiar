@@ -18,6 +18,12 @@
 
 Enemy::Enemy()
 {
+	m_Speed = 0.0;
+	m_MaxLives = 0;
+	m_Lives = 0;
+	m_MaxHealth = 0;
+	m_Health = 0;
+
 	Init();
 }
 
@@ -48,6 +54,7 @@ void Enemy::SetPlayerPosition(Vec2D& pos)
 
 void Enemy::Update(Real duration)
 {
+	m_PlayerPosition = gWorld.GetPlayer().GetPosition();
     Vec2D move = m_PlayerPosition - m_position;
 	move.Normalize();
 	move *= m_Speed * duration;

@@ -14,6 +14,9 @@
 * 
 */
 
+#ifndef AXE_H_
+#define AXE_H_
+
 #include "Weapon.h"
 
 class Axe : public Weapon
@@ -24,3 +27,5 @@ public:
     void StopHitting();
     void Update(Real duration);
 };
+
+#endif

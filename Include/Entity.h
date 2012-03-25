@@ -1,3 +1,19 @@
+/**
+* This file is part of
+* 
+* 8888888b.                    888    888      888      d8b                  
+* 888  "Y88b                   888    888      888      Y8P                  
+* 888    888                   888    888      888                           
+* 888    888  .d88b.   8888b.  888888 88888b.  888      888  8888b.  888d888 
+* 888    888 d8P  Y8b     "88b 888    888 "88b 888      888     "88b 888P"   
+* 888    888 88888888 .d888888 888    888  888 888      888 .d888888 888     
+* 888  .d88P Y8b.     888  888 Y88b.  888  888 888      888 888  888 888     
+* 8888888P"   "Y8888  "Y888888  "Y888 888  888 88888888 888 "Y888888 888   
+* 
+* Copyright © 2012 Emil Sandstø, Sebastian Reinhard
+* 
+*/
+
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
@@ -41,11 +57,20 @@ public:
      */
     virtual void Draw(Real duration);
 
+    /**
+     * Returns the position of the entity.
+     * @return the position of the entity.
+     */
+    Vec2D& GetPosition()
+    {
+        return m_position;
+    }
+
 protected:
-    Vec2D m_position;///< Position of a entity.
-    sf::Sprite m_sprite;///< Sprite of a entity.
-    sf::Uint16 m_id;///< ID of sprite.
-    static sf::Uint16 sNextID;///< ID for the next entity created.
+    Vec2D m_position;           ///< Position of a entity.
+    sf::Sprite m_sprite;        ///< Sprite of a entity.
+    sf::Uint16 m_id;            ///< ID of sprite.
+    static sf::Uint16 sNextID;  ///< ID for the next entity created.
 };
 
 #endif

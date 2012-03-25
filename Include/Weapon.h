@@ -14,6 +14,9 @@
 * 
 */
 
+#ifndef WEAPON_H_
+#define WEAPON_H_
+
 #include "Entity.h"
 
 class Weapon : public Entity
@@ -83,3 +86,5 @@ private:
     int m_MaxHealth;    ///< The maximum health of the weapon.
     int m_WeaponDamage; ///< How much damage the weapon takes each hit.
 };
+
+#endif

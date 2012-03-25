@@ -20,6 +20,7 @@
 #include "MathUtil.h"
 #include "Vec2D.h"
 #include "Entity.h"
+#include "World.h"
 
 /**
  * An enemy class. This should be used for zombies, etc.
@@ -40,12 +41,12 @@ public:
 	/**
 	 * Initalizes the enemy.
 	 */
-	void Init();
+	virtual void Init() = 0;
 
 	/**
 	 * Destroys the enemy.
 	 */
-	void Destroy();
+	virtual void Destroy() = 0;
 
 	/**
 	 * Sets the players position.
@@ -92,17 +93,17 @@ public:
 	/**
 	 * Damages the enemy. Removes 1 health.
 	 */
-	void Damage();
+	virtual void Damage();
 
 	/**
 	 * Hurts the enemy. Removes 1 life and sets the health to full.
 	 */
-	void Hurt();
+	virtual void Hurt();
 
 	/**
 	 * Kills the enemy. Removes all lives.
 	 */
-	void Kill();
+	virtual void Kill();
 
 private:
 	Vec2D m_PlayerPosition;	///< The players position.
