@@ -33,13 +33,13 @@ public:
      * Fires or starts firing the weapon.
      * Should be called on mouse down.
      */
-    virtual void Hit();
+    virtual void Hit() = 0;
 
     /**
      * Stops hitting.
      * Should be called on mouse release.
      */
-    virtual void StopHitting();
+    virtual void StopHitting() = 0;
 
     /**
      * Sets how much damage the weapon makes for each hit.

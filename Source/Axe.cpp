@@ -16,17 +16,17 @@
 
 #include "Axe.h"
 
-void Hit()
+void Axe::Hit()
 {
 
 }
 
-void StopHitting()
-{
-
-}
-
-void Update(Real duration)
+void Axe::StopHitting()
 {
     
+}
+
+void Axe::Update(Real duration)
+{
+
 }

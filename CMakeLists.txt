@@ -24,7 +24,9 @@ set(HDRS
 	${INC_PATH}/MathUtil.h
 	${INC_PATH}/ResourceMgr.h
 	${INC_PATH}/Vec2D.h
-	${INC_PATH}/World.h)
+	${INC_PATH}/World.h
+	${INC_PATH}/Weapon.h
+	${INC_PATH}/Axe.h)
 
 set(SRCS 
 	${SRC_PATH}/Entity.cpp
@@ -32,7 +34,9 @@ set(SRCS
 	${SRC_PATH}/Main.cpp
 	${SRC_PATH}/ResourceMgr.cpp
 	${SRC_PATH}/World.cpp
-	${SRC_PATH}/Player.cpp)
+	${SRC_PATH}/Player.cpp
+	${SRC_PATH}/Weapon.cpp
+	${SRC_PATH}/Axe.cpp)
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin/")
 
