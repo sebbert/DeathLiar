@@ -21,7 +21,7 @@ class Weapon : public Entity
 public:
     /**
      * The constructor.
-     * Initalizes the weapon with custom settings, or axe settings (takes no damage) if no arguments are specified.
+     * Inits the weapon with custom settings, or uses axe settings (takes no damage) if no arguments are specified.
      * @param damage How much damage the weapon makes for each hit.
      * @param maxHealth The maximum health of the weapon. The health will also be set to this.
      * @param weaponDamage How much damage the weapon takes each hit.
