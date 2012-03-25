@@ -23,7 +23,7 @@ void Axe::Hit()
 
 void Axe::StopHitting()
 {
-
+    
 }
 
 void Axe::Update(Real duration)

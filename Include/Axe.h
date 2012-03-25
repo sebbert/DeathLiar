@@ -19,8 +19,8 @@
 class Axe : public Weapon
 {
 public:
-    Axe() : Weapon(1, 1, 0) {}´
+    Axe() : Weapon(1, 1, 0) {}
     void Hit();
-    void StopHitting() {};
+    void StopHitting();
     void Update(Real duration);
 };

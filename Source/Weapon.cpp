@@ -16,7 +16,7 @@
 
 #include "Weapon.h"
 
-Weapon::Weapon(int damage = 1, int maxHealth = 1, int weaponDamage = 0)
+Weapon::Weapon(int damage, int maxHealth, int weaponDamage)
 {
     m_Damage = damage;
     m_MaxHealth = maxHealth;
