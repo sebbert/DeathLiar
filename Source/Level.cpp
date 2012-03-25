@@ -44,9 +44,17 @@ void Level::Draw()
 
     for(int i = 0;i < 4;i++)
     {
-        if(zones[i] == zones[i-1])
+        if(zones[i] > 8)
         {
             zones[i] = -1;
+            continue;
+        }
+        for(int j = 0;j < 4;j++)
+        {
+            if(zones[i] == zones[j] && i != j)
+            {
+                zones[i] = -1;
+            }
         }
     }
 
