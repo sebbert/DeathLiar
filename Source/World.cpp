@@ -7,6 +7,8 @@ void World::Init()
 
     m_bGameOn = true;
 
+    m_level.Init();
+
     m_player.SetSprite("Media/Player.png");
 }
 
@@ -27,7 +29,10 @@ void World::Update()
     }
         
     m_window.Clear(sf::Color(255, 255, 255));    
+    
+    m_level.Draw();
     m_player.Draw(GetFrameTime());
+    
     m_window.Display();
 }
 

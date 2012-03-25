@@ -1,11 +1,13 @@
 #include "Player.h"
 #include "Entity.h"
+#include "World.h"
 
 Player::Player()
 {
     m_sideSpeed = 250.0;
     m_forwardSpeed = 250.0;
     m_backwardSpeed = 250.0;
+    m_sprite.SetPosition((Real)WINDOW_WIDTH * 0.5, (Real)WINDOW_HEIGHT * 0.5);
 }
 
 void Player::HandleEvents(sf::Event &event)
@@ -14,19 +16,19 @@ void Player::HandleEvents(sf::Event &event)
     {
         if(event.Key.Code == sf::Key::A)
         {
-            m_velocity.x = -m_sideSpeed;
+            m_velocity.x = m_sideSpeed;
         }
         else if(event.Key.Code == sf::Key::D)
         {
-            m_velocity.x = m_sideSpeed;
+            m_velocity.x = -m_sideSpeed;
         }
         else if(event.Key.Code == sf::Key::S)
         {
-            m_velocity.y = m_backwardSpeed;
+            m_velocity.y = -m_backwardSpeed;
         }
         else if(event.Key.Code == sf::Key::W)
         {
-            m_velocity.y = -m_forwardSpeed;
+            m_velocity.y = m_forwardSpeed;
         }
     }
 
@@ -49,6 +51,8 @@ void Player::Update(Real duration)
     tmp.Truncate(m_sideSpeed);
     m_position += tmp * duration;
 
-    sf::Vector2f *vec = (sf::Vector2f *)&m_position;
-    m_sprite.SetPosition(*vec);
+    //sf::Vector2f *vec = (sf::Vector2f *)&m_position;
+    //m_sprite.SetPosition(*vec);
+
+    gWorld.m_level.SetPosition(m_position);
 }

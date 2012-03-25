@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include "MathUtil.h"
 #include "Player.h"
+#include "Level.h"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -43,6 +44,9 @@ public:
     {
         return m_bGameOn;
     }
+
+    Level m_level;
+
 private:
     World() {}
     World(const World&) {}

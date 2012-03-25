@@ -41,6 +41,12 @@ public:
      */
     Vec2D(Real x, Real y) : x(x), y(y) {}
 
+    void Set(Real x, Real y) 
+    {
+        this->x = x;
+        this->y = y;
+    }
+
     /**
      * Copies the vector from another vector.
      * @param c The vector to copy.
