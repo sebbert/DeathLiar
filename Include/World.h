@@ -85,7 +85,9 @@ private:
     Level m_level;              ///< Game level.
     Vec2D m_lastLevelPos;
 
+    bool m_bSingleFrame;        ///< Single frame application.
     bool m_bGameOn;             ///< True if game should run.
+    bool m_bPaused;             ///< True if game is paused.
 };
 
 #define gWorld World::Instance()

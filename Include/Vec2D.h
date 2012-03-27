@@ -18,6 +18,7 @@
 #define VEC2D_H
 
 #include "MathUtil.h"
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 /**
@@ -261,6 +262,10 @@ inline Vec2D Normalize(const Vec2D &a)
     return tmp;
 }
 
+inline void PrintVec2D(const char *vectorName, const Vec2D &vec)
+{
+    std::cout << vectorName << "(" << vec.x << ", " << vec.y << ")\n";
+}
 
 /**
  * Returns a SFML vector of a vector.

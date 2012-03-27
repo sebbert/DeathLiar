@@ -34,13 +34,21 @@ Enemy::~Enemy()
 void Enemy::Update(Real duration)
 {
     Vec2D playerPosition = gWorld.GetPlayer().GetWorldPos();
-    Vec2D vel = playerPosition - m_position;
-	vel.Normalize();
-	vel *= m_Speed;
+    Vec2D force = playerPosition - m_position;
 
-    m_velocity = vel - m_velocity;
+    PrintVec2D("Enemy Target", playerPosition);
+
+	force.Normalize();
+	force *= m_Speed;
+
+    m_velocity += (force - m_velocity * 0.1) * duration;
     m_position += gWorld.GetLevelPos();
     m_position += m_velocity * duration;
+
+    PrintVec2D("Position", m_position);
+    PrintVec2D("Enemy Velocity", m_velocity);
+
+    m_velocity *= pow(0.98, (double)duration);
 }
 
 void Enemy::SetSpeed(Real speed)

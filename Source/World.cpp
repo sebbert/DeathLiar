@@ -40,19 +40,42 @@ void World::Update()
         {
             m_bGameOn = false;
         }
-        if(event.Type == sf::Event::KeyPressed && event.Key.Code == sf::Key::Escape)
+        else if(event.Type == sf::Event::KeyPressed)
         {
-            m_bGameOn = false;
+            if(event.Key.Code == sf::Key::Escape)
+            {
+                m_bGameOn = false;
+            }
+            else if(event.Key.Code == sf::Key::P)
+            {
+                //Pause game...
+                m_bPaused = !m_bPaused;
+            }
+            else if(event.Key.Code == sf::Key::O)
+            {
+                //Single frame
+                m_bSingleFrame = true;
+                m_bPaused = false;
+            }
         }
     }
-        
-    m_window.Clear(sf::Color(255, 255, 255));    
     
-    m_level.Draw();
-    m_player.Draw(GetFrameTime());
-    m_enemy.Draw(GetFrameTime());
+    if(!m_bPaused)
+    {
+        m_window.Clear(sf::Color(255, 255, 255));    
+    
+        m_level.Draw();
+        m_player.Draw(GetFrameTime());
+        m_enemy.Draw(GetFrameTime());
+        
+        m_window.Display();
 
-    m_window.Display();
+        if(m_bSingleFrame)
+        {
+            m_bSingleFrame = false;
+            m_bPaused = true;
+        }
+    }
 }
 
 void World::Destroy()
