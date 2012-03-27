@@ -15,6 +15,7 @@
 */
 
 #include "Enemy.h"
+#include "World.h"
 
 Enemy::Enemy()
 {
@@ -30,22 +31,16 @@ Enemy::~Enemy()
 	
 }
 
-void Enemy::SetPosition(Vec2D& pos)
-{
-	m_position = pos;
-}
-
-void Enemy::SetPlayerPosition(Vec2D& pos)
-{
-	m_PlayerPosition = pos;
-}
-
 void Enemy::Update(Real duration)
 {
-	m_PlayerPosition = gWorld.GetPlayer().GetPosition();
-    Vec2D move = m_PlayerPosition - m_position;
-	move.Normalize();
-	move *= m_Speed * duration;
+    Vec2D playerPosition = gWorld.GetPlayer().GetWorldPos();
+    Vec2D vel = playerPosition - m_position;
+	vel.Normalize();
+	vel *= m_Speed;
+
+    m_velocity = vel - m_velocity;
+    m_position += gWorld.GetLevelPos();
+    m_position += m_velocity * duration;
 }
 
 void Enemy::SetSpeed(Real speed)
@@ -87,4 +82,12 @@ void Enemy::Hurt()
 void Enemy::Kill()
 {
 	m_Health = m_Lives = 0;
+}
+
+void Enemy::Destroy()
+{
+}
+
+void Enemy::Init()
+{
 }

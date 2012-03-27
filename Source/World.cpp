@@ -25,6 +25,8 @@ void World::Init()
 
     m_level.Init();
 
+    m_enemy.SetSpeed(100.0);
+    m_enemy.SetSprite("Media/Zombie.png");
     m_player.SetSprite("Media/Player.png");
 }
 
@@ -48,7 +50,8 @@ void World::Update()
     
     m_level.Draw();
     m_player.Draw(GetFrameTime());
-    
+    m_enemy.Draw(GetFrameTime());
+
     m_window.Display();
 }
 

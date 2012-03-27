@@ -18,6 +18,7 @@
 #define ENTITY_H_
 
 #include "Vec2D.h"
+#include <SFML/Graphics.hpp>
 
 /**
  * Entity is an object in the game world which can easily be rendered.
@@ -29,11 +30,6 @@ public:
      * Overload default constructor.
      */
     Entity();
-    
-    static sf::Uint16 GetNextID()
-    {
-        return Entity::sNextID++;
-    }
 
     /**
      * Set sprite of entity, by an image.
@@ -47,6 +43,8 @@ public:
      */
     bool SetSprite(const char *fileName);
     
+    void SetPosition(const Vec2D &pos);
+
     /**
      * Virtual function which does nothing.
      */
@@ -67,6 +65,11 @@ public:
     }
 
 protected:
+    static sf::Uint16 GetNextID()
+    {
+        return Entity::sNextID++;
+    }
+
     Vec2D m_position;           ///< Position of a entity.
     sf::Sprite m_sprite;        ///< Sprite of a entity.
     sf::Uint16 m_id;            ///< ID of sprite.

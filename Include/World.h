@@ -22,6 +22,7 @@
 #include "MathUtil.h"
 #include "Player.h"
 #include "Level.h"
+#include "Enemy.h"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -62,15 +63,27 @@ public:
         return m_player;
     }
 
-    Level m_level;
+    Level &GetLevel()
+    {
+        return m_level;
+    }
 
+    Vec2D GetLevelPos()
+    {
+        Vec2D levelPos = m_lastLevelPos - m_level.m_position.Opposite();
+        m_lastLevelPos = m_level.m_position.Opposite();
+        return levelPos;
+    }
 private:
     World() {}
     World(const World&) {}
     World operator =(const World&) {}
 
+    Enemy m_enemy;              ///< AI driven enemy.
     Player m_player;            ///< User controlled entity.
     sf::RenderWindow m_window;  ///< Handle the window.
+    Level m_level;              ///< Game level.
+    Vec2D m_lastLevelPos;
 
     bool m_bGameOn;             ///< True if game should run.
 };

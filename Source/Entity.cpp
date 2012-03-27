@@ -45,7 +45,13 @@ void Entity::Draw(Real duration)
 {
     Update(duration);
 
+    m_sprite.SetPosition(m_position.x, m_position.y);
     gWindow->Draw(m_sprite);
+}
+
+void Entity::SetPosition(const Vec2D &pos)
+{
+    m_position = pos;
 }
 
 void Entity::Update(Real duration)

@@ -17,13 +17,32 @@
 #include "Player.h"
 #include "Entity.h"
 #include "World.h"
+#include <iostream>
+
+float AngleBetweenPoints(const Vec2D& p1, const Vec2D& p2)
+{
+	float x = p1.x - p2.x;
+	if (x == 0.f)
+	{
+		return 0.f;
+	}
+	float y = p1.y - p2.y;
+	float radians = std::atan(-y / x);
+	if (p2.x > p1.x)
+	{
+		radians += PI;
+	}
+	return radians;
+}
 
 Player::Player()
 {
     m_sideSpeed = 250.0;
     m_forwardSpeed = 250.0;
     m_backwardSpeed = 250.0;
-    m_sprite.SetPosition((Real)WINDOW_WIDTH * 0.5, (Real)WINDOW_HEIGHT * 0.5);
+    m_position.Set((Real)WINDOW_WIDTH * 0.5, (Real)WINDOW_HEIGHT * 0.5);
+
+    m_sprite.SetCenter(64.0 * 0.5, 64.0 * 0.5);
 }
 
 void Player::HandleEvents(sf::Event &event)
@@ -59,16 +78,27 @@ void Player::HandleEvents(sf::Event &event)
             m_velocity.y = 0;
         }
     }
+
+    if(event.Type == sf::Event::MouseMoved)
+    {
+        Vec2D mousePos(event.MouseMove.X, event.MouseMove.Y);
+        Vec2D playerPos((Real)WINDOW_WIDTH * 0.5, (Real)WINDOW_HEIGHT * 0.5);
+ 
+        float angle = RadToDeg(AngleBetweenPoints(playerPos, mousePos)) + 90.0;
+
+        m_sprite.SetRotation(angle);
+    }
 }
 
 void Player::Update(Real duration)
 {
     Vec2D tmp = m_velocity;
     tmp.Truncate(m_sideSpeed);
-    m_position += tmp * duration;
+    m_levelPos += tmp * duration;
 
+    //Vec2D pos = *(Vec2D*)&m_transformMat.Transform(*(sf::Vector2f *)&m_position);
     //sf::Vector2f *vec = (sf::Vector2f *)&m_position;
     //m_sprite.SetPosition(*vec);
 
-    gWorld.m_level.SetPosition(m_position);
+    gWorld.GetLevel().SetPosition(m_levelPos);
 }

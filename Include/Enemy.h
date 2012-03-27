@@ -20,7 +20,6 @@
 #include "MathUtil.h"
 #include "Vec2D.h"
 #include "Entity.h"
-#include "World.h"
 
 /**
  * An enemy class. This should be used for zombies, etc.
@@ -41,20 +40,12 @@ public:
 	/**
 	 * Initalizes the enemy.
 	 */
-	virtual void Init() = 0;
+	virtual void Init();
 
 	/**
 	 * Destroys the enemy.
 	 */
-	virtual void Destroy() = 0;
-
-	/**
-	 * Sets the players position.
-	 * @param pos The players position.
-	 */
-	void SetPlayerPosition(Vec2D& pos);
-
-    void SetPosition(Vec2D& pos);
+	virtual void Destroy();
 
 	/**
 	 * Updates the AI.
@@ -106,7 +97,7 @@ public:
 	virtual void Kill();
 
 private:
-	Vec2D m_PlayerPosition;	///< The players position.
+    Vec2D m_velocity;       ///< Velocity of enemy.
 	Real m_Speed;			///< The speed of the enemy.
 
 	int m_MaxLives;			///< The maximum amount of lives.

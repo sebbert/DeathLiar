@@ -17,6 +17,7 @@
 #define PLAYER_H_
 
 #include "Entity.h"
+#include <SFML/Graphics.hpp>
 
 /**
  * Player is the entity the user is controlling.
@@ -35,15 +36,29 @@ public:
      * Update each frame.
      */
     void Update(Real duration);
+
+    Vec2D GetWorldPos()
+    {
+        return m_levelPos.Opposite() + m_position;
+    }
+
+    Vec2D GetLevelPos()
+    {
+        return m_levelPos;
+    }
 private:
     Vec2D m_velocity;///< Velocity of player.
+
+    Vec2D m_levelPos;///< Level pos.
 
     Real m_forwardSpeed;///< Forward speed of a player.
     Real m_backwardSpeed;///< Backward speed of a player.
     Real m_sideSpeed;///< Speed of going left and right.
-    
+
     int m_maxHealth;///< Maxium health of a player.
     int m_health;///< Current health of player.
 };
+
+float AngleBetweenPoints(const Vec2D& p1, const Vec2D& p2);
 
 #endif
