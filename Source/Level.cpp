@@ -24,7 +24,10 @@ void Level::Init()
     {
         for(int j = 0;j < 3;j++)
         {
-            m_zones[i * 3 + j].SetImage(*gResourceMgr.GetImage("Media/part1.png"));
+            sf::Image& image = *gResourceMgr.GetImage("Media/part1.png");
+            image.SetSmooth(false);
+
+            m_zones[i * 3 + j].SetImage(image);
             m_zonePositions[i * 3 + j].Set(j * 1024, i * 1024);
         }
     }
