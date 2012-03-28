@@ -52,6 +52,8 @@ public:
 	 */
 	void Update(Real duration);
 
+    void SetMass(Real mass);
+
 	/**
 	 * Sets the speed of the enemy.
 	 * @param speed The speed.
@@ -97,8 +99,14 @@ public:
 	virtual void Kill();
 
 private:
+    Vec2D Pursuit();
+    Vec2D Arrive();
+
+    bool m_calculateForce;
     Vec2D m_velocity;       ///< Velocity of enemy.
+    Vec2D m_heading;        ///< Heding of enemy;
 	Real m_Speed;			///< The speed of the enemy.
+    Real m_mass;            ///< Mass of a enemy;
 
 	int m_MaxLives;			///< The maximum amount of lives.
 	int m_Lives;			///< The amount of lives.

@@ -16,6 +16,7 @@
 
 #include "Enemy.h"
 #include "World.h"
+#include "Mathutil.h"
 
 Enemy::Enemy()
 {
@@ -24,6 +25,7 @@ Enemy::Enemy()
 	m_Lives = 0;
 	m_MaxHealth = 0;
 	m_Health = 0;
+    m_heading.y = 1.0;
 }
 
 Enemy::~Enemy()
@@ -31,24 +33,76 @@ Enemy::~Enemy()
 	
 }
 
+void Enemy::SetMass(Real mass)
+{
+    m_mass = mass;
+}
+
 void Enemy::Update(Real duration)
 {
-    Vec2D playerPosition = gWorld.GetPlayer().GetWorldPos();
-    Vec2D force = playerPosition - m_position;
+    Vec2D acceleration = Arrive() / m_mass;
+    m_velocity += acceleration * duration;
+    
+    m_velocity.Truncate(m_Speed);
 
-    PrintVec2D("Enemy Target", playerPosition);
-
-	force.Normalize();
-	force *= m_Speed;
-
-    m_velocity += (force - m_velocity * 0.1) * duration;
-    m_position += gWorld.GetLevelPos();
     m_position += m_velocity * duration;
+    m_position += gWorld.GetLevelPos();
+
+    m_velocity *= 0.99;
+
+    if(m_velocity.MagnitudeSquared() > 0.000000001)
+    {
+        m_heading = Normalize(m_velocity);
+    }
 
     PrintVec2D("Position", m_position);
     PrintVec2D("Enemy Velocity", m_velocity);
+}
 
-    m_velocity *= pow(0.98, (double)duration);
+Vec2D Enemy::Pursuit()
+{
+    Vec2D playerPos = gWorld.GetPlayer().GetWorldPos();
+    Vec2D toPlayer = playerPos - m_position;
+    Vec2D force;
+
+    Real length = toPlayer.Magnitude();  
+    Real relativeHeading = m_heading * gWorld.GetPlayer().GetHeading();
+    //Player is right in front, don't predict position.
+    if(toPlayer * m_heading > 0 && relativeHeading < -0.95)
+    {
+        force = toPlayer / length;
+        force *= m_Speed;
+        PrintVec2D("Enemy In front of you", gWorld.GetPlayer().GetWorldPos());
+    }
+    else
+    {
+        Real lookAhead = length / (gWorld.GetPlayer().GetSpeed() + m_Speed);
+        Vec2D futurePos = (playerPos + gWorld.GetPlayer().GetVelocity()) * lookAhead;
+        PrintVec2D("Enemy Target", futurePos);
+        force = Normalize(futurePos - m_position) * m_Speed;
+    }
+
+    force -= m_velocity;
+
+    return force;
+}
+
+Vec2D Enemy::Arrive()
+{
+    PrintVec2D("Enemy Target", gWorld.GetPlayer().GetWorldPos());
+    Vec2D toPlayer = gWorld.GetPlayer().GetWorldPos() - m_position;
+    Real dist = toPlayer.Magnitude();
+    if(dist > 0)
+    {
+        Real speed = dist / 0.9;
+
+        speed = Min(speed, m_Speed);
+
+        Vec2D velocity = toPlayer * speed / dist;
+        return velocity - m_velocity;
+    }
+
+    return Vec2D(0, 0);
 }
 
 void Enemy::SetSpeed(Real speed)

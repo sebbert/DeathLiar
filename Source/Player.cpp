@@ -41,8 +41,6 @@ Player::Player()
     m_forwardSpeed = 250.0;
     m_backwardSpeed = 250.0;
     m_position.Set((Real)WINDOW_WIDTH * 0.5, (Real)WINDOW_HEIGHT * 0.5);
-
-    m_sprite.SetCenter(64.0 * 0.5, 64.0 * 0.5);
 }
 
 void Player::HandleEvents(sf::Event &event)
@@ -82,19 +80,21 @@ void Player::HandleEvents(sf::Event &event)
     if(event.Type == sf::Event::MouseMoved)
     {
         Vec2D mousePos(event.MouseMove.X, event.MouseMove.Y);
-        Vec2D playerPos((Real)WINDOW_WIDTH * 0.5, (Real)WINDOW_HEIGHT * 0.5);
+        Vec2D playerPos((Real)WINDOW_WIDTH * 0.5 + 64 * 0.5, (Real)WINDOW_HEIGHT * 0.5 + 64 * 0.5);
  
         float angle = RadToDeg(AngleBetweenPoints(playerPos, mousePos)) + 90.0;
 
         m_sprite.SetRotation(angle);
+
+        m_heading = playerPos - mousePos;
+        m_heading.Normalize();
     }
 }
 
 void Player::Update(Real duration)
 {
-    Vec2D tmp = m_velocity;
-    tmp.Truncate(m_sideSpeed);
-    m_levelPos += tmp * duration;
+    m_velocity.Truncate(m_sideSpeed);
+    m_levelPos += m_velocity * duration;
 
     //Vec2D pos = *(Vec2D*)&m_transformMat.Transform(*(sf::Vector2f *)&m_position);
     //sf::Vector2f *vec = (sf::Vector2f *)&m_position;
