@@ -66,4 +66,9 @@ inline bool IsZero(Real x)
     return ((-MinReal < x) && (MinReal < x));
 }
 
+inline Real Min(Real x, Real y)
+{
+    return x < y ? x : y;
+}
+
 #endif

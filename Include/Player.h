@@ -36,7 +36,7 @@ public:
      * Update each frame.
      */
     void Update(Real duration);
-
+    
     Vec2D GetWorldPos()
     {
         return m_levelPos.Opposite() + m_position;
@@ -46,9 +46,24 @@ public:
     {
         return m_levelPos;
     }
+
+    Vec2D GetVelocity()
+    {
+        return m_velocity;
+    }
+
+    Real GetSpeed()
+    {
+        return m_forwardSpeed;
+    }
+
+    Vec2D GetHeading()
+    {
+        return m_heading;
+    }
 private:
     Vec2D m_velocity;///< Velocity of player.
-
+    Vec2D m_heading;///< Heading of a player.
     Vec2D m_levelPos;///< Level pos.
 
     Real m_forwardSpeed;///< Forward speed of a player.

@@ -31,9 +31,10 @@ bool Entity::SetSprite(const char *fileName)
     if(image != 0)
     {
         m_sprite.SetImage(*image);
+        m_sprite.SetCenter((Real)image->GetWidth() * 0.5, (Real)image->GetHeight() * 0.5);
     }
-    
-    return (bool)image;
+
+    return image ? true : false;
 }
 
 void Entity::SetSprite(sf::Image &image)

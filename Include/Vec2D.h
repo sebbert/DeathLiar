@@ -164,6 +164,15 @@ public:
     }
 
     /**
+     * Returns the magnitude of a vector squared. 
+     * @return The magnitude of a vector squared.
+     */
+    Real MagnitudeSquared()
+    {
+        return x * x + y * y;
+    }
+
+    /**
      * Normalizes the vector.
      */
     void Normalize()
@@ -262,10 +271,12 @@ inline Vec2D Normalize(const Vec2D &a)
     return tmp;
 }
 
-inline void PrintVec2D(const char *vectorName, const Vec2D &vec)
-{
-    std::cout << vectorName << "(" << vec.x << ", " << vec.y << ")\n";
-}
+#ifdef _DEBUG
+#define PrintVec2D(vectorName, vec) std::cout << vectorName << "(" << vec.x << ", " << vec.y << ")\n";
+#else
+//Do nothing
+#define PrintVec2D(vectorName, vec)
+#endif
 
 /**
  * Returns a SFML vector of a vector.

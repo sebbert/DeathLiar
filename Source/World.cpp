@@ -26,6 +26,7 @@ void World::Init()
     m_level.Init();
 
     m_enemy.SetSpeed(100.0);
+    m_enemy.SetMass(1.0);
     m_enemy.SetSprite("Media/Zombie.png");
     m_player.SetSprite("Media/Player.png");
 }
