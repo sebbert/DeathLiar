@@ -65,7 +65,7 @@ void Player::HandleEvents(sf::Event &event)
         }
         if(event.Key.Code == sf::Key::H)
         {
-            m_velocity.x = m_sideSpeed;
+            m_levelPos.x = m_sideSpeed;
         }
     }
 
