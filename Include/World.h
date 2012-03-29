@@ -76,9 +76,9 @@ public:
         /*
         Vec2D levelPos = m_lastLevelPos - m_level.m_position.Opposite();
         m_lastLevelPos = m_level.m_position.Opposite();
-        return levelPos;
-        */
-        return m_level.m_position.Opposite();
+        return levelPos;*/
+        
+        return m_level.m_position;
     }
 private:
     World() {}

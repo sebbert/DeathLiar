@@ -59,7 +59,7 @@ public:
      * Returns the position of the entity.
      * @return the position of the entity.
      */
-    Vec2D& GetPosition()
+    Vec2D &GetPosition()
     {
         return m_position;
     }

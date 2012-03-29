@@ -46,14 +46,17 @@ void Enemy::Update(Real duration)
     m_velocity.Truncate(m_Speed);
 
     m_localPos += m_velocity * duration;
-    //m_position = gWorld.GetLevelPos();
-    m_position = m_localPos;
+
+    m_position = gWorld.GetLevelPos() + m_localPos;
 
     m_velocity *= 0.99;
 
     if(m_velocity.MagnitudeSquared() > 0.000000001)
     {
         m_heading = Normalize(m_velocity);
+        float angle = RadToDeg(AngleBetweenPoints(m_heading, Vec2D(0, 0)));
+
+        m_sprite.SetRotation(angle - 90);
     }
 
     PrintVec2D("Position", m_position);
@@ -90,8 +93,8 @@ Vec2D Enemy::Pursuit()
 
 Vec2D Enemy::Arrive()
 {
-    PrintVec2D("Enemy Target", gWorld.GetPlayer().GetWorldPos());
-    Vec2D toPlayer = gWorld.GetPlayer().GetWorldPos() - m_position;
+    PrintVec2D("Enemy Target", gWorld.GetPlayer().GetPosition());
+    Vec2D toPlayer = gWorld.GetPlayer().GetPosition() - m_position;
     Real dist = toPlayer.Magnitude();
     if(dist > 0)
     {

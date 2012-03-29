@@ -19,22 +19,6 @@
 #include "World.h"
 #include <iostream>
 
-float AngleBetweenPoints(const Vec2D& p1, const Vec2D& p2)
-{
-	float x = p1.x - p2.x;
-	if (x == 0.f)
-	{
-		return 0.f;
-	}
-	float y = p1.y - p2.y;
-	float radians = std::atan(-y / x);
-	if (p2.x > p1.x)
-	{
-		radians += PI;
-	}
-	return radians;
-}
-
 Player::Player()
 {
 }

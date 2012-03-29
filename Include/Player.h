@@ -71,6 +71,4 @@ private:
     int m_health;///< Current health of player.
 };
 
-float AngleBetweenPoints(const Vec2D& p1, const Vec2D& p2);
-
 #endif
