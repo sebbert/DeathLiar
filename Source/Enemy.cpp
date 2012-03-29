@@ -45,8 +45,9 @@ void Enemy::Update(Real duration)
     
     m_velocity.Truncate(m_Speed);
 
-    m_position += m_velocity * duration;
-    m_position += gWorld.GetLevelPos();
+    m_localPos += m_velocity * duration;
+    //m_position = gWorld.GetLevelPos();
+    m_position = m_localPos;
 
     m_velocity *= 0.99;
 

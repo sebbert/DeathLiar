@@ -48,14 +48,14 @@ void Level::Draw()
     Vec2D point = oppositPos;
     zones[0] = GetZoneFromPoint(point);
 
-    point.x += WINDOW_WIDTH;
+    point.x += gWorld.GetParams().m_windowWidth;
     zones[1] = GetZoneFromPoint(point);
 
-    point.y += WINDOW_HEIGHT;
+    point.y += gWorld.GetParams().m_windowHeight;
     zones[2] = GetZoneFromPoint(point);
 
     point = oppositPos;
-    point.y += WINDOW_HEIGHT;
+    point.y += gWorld.GetParams().m_windowHeight;
     zones[3] = GetZoneFromPoint(point);
 
     for(int i = 0;i < 4;i++)

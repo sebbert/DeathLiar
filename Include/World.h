@@ -23,9 +23,7 @@
 #include "Player.h"
 #include "Level.h"
 #include "Enemy.h"
-
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#include "ParamFile.h"
 
 class World
 {
@@ -68,11 +66,19 @@ public:
         return m_level;
     }
 
+    ParamFile &GetParams()
+    {
+        return m_params;
+    }
+
     Vec2D GetLevelPos()
     {
+        /*
         Vec2D levelPos = m_lastLevelPos - m_level.m_position.Opposite();
         m_lastLevelPos = m_level.m_position.Opposite();
         return levelPos;
+        */
+        return m_level.m_position.Opposite();
     }
 private:
     World() {}
@@ -84,6 +90,8 @@ private:
     sf::RenderWindow m_window;  ///< Handle the window.
     Level m_level;              ///< Game level.
     Vec2D m_lastLevelPos;
+
+    ParamFile m_params;         ///< Parameters set in a file.
 
     bool m_bSingleFrame;        ///< Single frame application.
     bool m_bGameOn;             ///< True if game should run.

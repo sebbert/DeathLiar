@@ -18,17 +18,21 @@
 
 void World::Init()
 {
-    m_window.Create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, 32), "Deathliar");
+    m_params.Init();
+
+    m_window.Create(sf::VideoMode(m_params.m_windowWidth, m_params.m_windowHeight, 32), "Deathliar");
     m_window.SetFramerateLimit(30);
 
     m_bGameOn = true;
 
     m_level.Init();
 
-    m_enemy.SetSpeed(100.0);
+    m_player.Init();
+    m_player.SetSprite("Media/Player.png");
+
+    m_enemy.SetSpeed(m_params.m_enemySpeed);
     m_enemy.SetMass(1.0);
     m_enemy.SetSprite("Media/Zombie.png");
-    m_player.SetSprite("Media/Player.png");
 }
 
 void World::Update()

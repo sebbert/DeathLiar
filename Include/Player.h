@@ -27,6 +27,8 @@ class Player : public Entity
 public:
     Player();
 
+    void Init();
+
     /**
      * Handle user inputs.
      */
@@ -37,10 +39,7 @@ public:
      */
     void Update(Real duration);
     
-    Vec2D GetWorldPos()
-    {
-        return m_levelPos.Opposite() + m_position;
-    }
+    Vec2D GetWorldPos();
 
     Vec2D GetLevelPos()
     {
@@ -54,7 +53,7 @@ public:
 
     Real GetSpeed()
     {
-        return m_forwardSpeed;
+        return m_speed;
     }
 
     Vec2D GetHeading()
@@ -66,9 +65,7 @@ private:
     Vec2D m_heading;///< Heading of a player.
     Vec2D m_levelPos;///< Level pos.
 
-    Real m_forwardSpeed;///< Forward speed of a player.
-    Real m_backwardSpeed;///< Backward speed of a player.
-    Real m_sideSpeed;///< Speed of going left and right.
+    Real m_speed;///< Speed of player.
 
     int m_maxHealth;///< Maxium health of a player.
     int m_health;///< Current health of player.

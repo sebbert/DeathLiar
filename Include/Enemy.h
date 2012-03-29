@@ -105,6 +105,8 @@ private:
     bool m_calculateForce;
     Vec2D m_velocity;       ///< Velocity of enemy.
     Vec2D m_heading;        ///< Heding of enemy;
+    Vec2D m_localPos;       ///< Local position of enemy.
+
 	Real m_Speed;			///< The speed of the enemy.
     Real m_mass;            ///< Mass of a enemy;
 

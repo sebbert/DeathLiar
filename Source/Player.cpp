@@ -37,10 +37,12 @@ float AngleBetweenPoints(const Vec2D& p1, const Vec2D& p2)
 
 Player::Player()
 {
-    m_sideSpeed = 250.0;
-    m_forwardSpeed = 250.0;
-    m_backwardSpeed = 250.0;
-    m_position.Set((Real)WINDOW_WIDTH * 0.5, (Real)WINDOW_HEIGHT * 0.5);
+}
+
+void Player::Init()
+{
+    m_speed = gWorld.GetParams().m_playerSpeed;
+    m_position.Set((Real)gWorld.GetParams().m_windowWidth * 0.5, (Real)gWorld.GetParams().m_windowHeight * 0.5);
 }
 
 void Player::HandleEvents(sf::Event &event)
@@ -49,23 +51,23 @@ void Player::HandleEvents(sf::Event &event)
     {
         if(event.Key.Code == sf::Key::A)
         {
-            m_velocity.x = m_sideSpeed;
+            m_velocity.x = m_speed;
         }
         else if(event.Key.Code == sf::Key::D)
         {
-            m_velocity.x = -m_sideSpeed;
+            m_velocity.x = -m_speed;
         }
         else if(event.Key.Code == sf::Key::S)
         {
-            m_velocity.y = -m_backwardSpeed;
+            m_velocity.y = -m_speed;
         }
         else if(event.Key.Code == sf::Key::W)
         {
-            m_velocity.y = m_forwardSpeed;
+            m_velocity.y = m_speed;
         }
         if(event.Key.Code == sf::Key::H)
         {
-            m_levelPos.x = m_sideSpeed;
+            m_levelPos.x = m_speed;
         }
     }
 
@@ -84,7 +86,7 @@ void Player::HandleEvents(sf::Event &event)
     if(event.Type == sf::Event::MouseMoved)
     {
         Vec2D mousePos(event.MouseMove.X, event.MouseMove.Y);
-        Vec2D playerPos((Real)WINDOW_WIDTH * 0.5 + 64 * 0.5, (Real)WINDOW_HEIGHT * 0.5 + 64 * 0.5);
+        Vec2D playerPos((Real)gWorld.GetParams().m_windowWidth * 0.5 + 64 * 0.5, (Real)gWorld.GetParams().m_windowHeight * 0.5 + 64 * 0.5);
  
         float angle = RadToDeg(AngleBetweenPoints(playerPos, mousePos)) + 90.0;
 
@@ -97,7 +99,7 @@ void Player::HandleEvents(sf::Event &event)
 
 void Player::Update(Real duration)
 {
-    m_velocity.Truncate(m_sideSpeed);
+    m_velocity.Truncate(m_speed);
 
     m_levelPos += m_velocity * duration;
 
@@ -106,4 +108,9 @@ void Player::Update(Real duration)
     //m_sprite.SetPosition(*vec);
 
     gWorld.GetLevel().SetPosition(m_levelPos);
+}
+
+Vec2D Player::GetWorldPos()
+{
+    return m_levelPos + m_position;
 }
