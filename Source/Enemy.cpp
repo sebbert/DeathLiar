@@ -54,7 +54,8 @@ void Enemy::Update(Real duration)
     if(m_velocity.MagnitudeSquared() > 0.000000001)
     {
         m_heading = Normalize(m_velocity);
-        float angle = RadToDeg(AngleBetweenPoints(m_heading, Vec2D(0, 0)));
+        Vec2D empty;
+        float angle = RadToDeg(AngleBetweenPoints(m_heading, empty));
 
         m_sprite.SetRotation(angle - 90);
     }
