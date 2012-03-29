@@ -28,8 +28,6 @@ sf::Image *ResourceMgr::GetImage(const char *fileName)
         {
             return 0;
         }
-        
-        image->SetSmooth(false);
     }
     else
     {
