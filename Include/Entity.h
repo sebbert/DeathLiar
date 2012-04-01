@@ -74,6 +74,8 @@ protected:
     sf::Sprite m_sprite;        ///< Sprite of a entity.
     sf::Uint16 m_id;            ///< ID of sprite.
     static sf::Uint16 sNextID;  ///< ID for the next entity created.
+    Real m_halfWidth;           ///< Half width of image.
+    Real m_halfHeight;          ///< Half height of image.
 };
 
 #endif

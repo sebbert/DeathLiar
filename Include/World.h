@@ -24,6 +24,7 @@
 #include "Level.h"
 #include "Enemy.h"
 #include "ParamFile.h"
+#include "Camera.h"
 
 class World
 {
@@ -71,15 +72,17 @@ public:
         return m_params;
     }
 
-    Vec2D GetLevelPos()
+    Vec2D &GetCameraPos()
     {
-        /*
-        Vec2D levelPos = m_lastLevelPos - m_level.m_position.Opposite();
-        m_lastLevelPos = m_level.m_position.Opposite();
-        return levelPos;*/
-        
-        return m_level.m_position;
+        return m_camera.m_position;
     }
+
+    Vec2D &GetWindowCenter()
+    {
+        return m_halfWin;
+    }
+
+    Camera m_camera;            ///< Camera, which alter all the objects in the scene.
 private:
     World() {}
     World(const World&) {}
@@ -89,9 +92,10 @@ private:
     Player m_player;            ///< User controlled entity.
     sf::RenderWindow m_window;  ///< Handle the window.
     Level m_level;              ///< Game level.
-    Vec2D m_lastLevelPos;
 
     ParamFile m_params;         ///< Parameters set in a file.
+
+    Vec2D m_halfWin;            ///< Half width and heigt of window. In other words center.
 
     bool m_bSingleFrame;        ///< Single frame application.
     bool m_bGameOn;             ///< True if game should run.

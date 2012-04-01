@@ -26,7 +26,7 @@ Player::Player()
 void Player::Init()
 {
     m_speed = gWorld.GetParams().m_playerSpeed;
-    m_position.Set((Real)gWorld.GetParams().m_windowWidth * 0.5, (Real)gWorld.GetParams().m_windowHeight * 0.5);
+    m_position = gWorld.GetWindowCenter();
 }
 
 void Player::HandleEvents(sf::Event &event)
@@ -35,23 +35,19 @@ void Player::HandleEvents(sf::Event &event)
     {
         if(event.Key.Code == sf::Key::A)
         {
-            m_velocity.x = m_speed;
+            m_velocity.x = -m_speed;
         }
         else if(event.Key.Code == sf::Key::D)
         {
-            m_velocity.x = -m_speed;
+            m_velocity.x = m_speed;
         }
         else if(event.Key.Code == sf::Key::S)
         {
-            m_velocity.y = -m_speed;
+            m_velocity.y = m_speed;
         }
         else if(event.Key.Code == sf::Key::W)
         {
-            m_velocity.y = m_speed;
-        }
-        if(event.Key.Code == sf::Key::H)
-        {
-            m_levelPos.x = m_speed;
+            m_velocity.y = -m_speed;
         }
     }
 
@@ -69,10 +65,10 @@ void Player::HandleEvents(sf::Event &event)
 
     if(event.Type == sf::Event::MouseMoved)
     {
-        Vec2D mousePos(event.MouseMove.X, event.MouseMove.Y);
-        Vec2D playerPos((Real)gWorld.GetParams().m_windowWidth * 0.5 + 64 * 0.5, (Real)gWorld.GetParams().m_windowHeight * 0.5 + 64 * 0.5);
+        Vec2D mousePos((Real)event.MouseMove.X, (Real)event.MouseMove.Y);
+        Vec2D playerPos(m_position.x + m_halfWidth, m_position.y + m_halfHeight);
  
-        float angle = RadToDeg(AngleBetweenPoints(playerPos, mousePos)) + 90.0;
+        float angle = (float)RadToDeg(AngleBetweenPoints(playerPos, mousePos)) + (Real)90.0;
 
         m_sprite.SetRotation(angle);
 
@@ -83,15 +79,101 @@ void Player::HandleEvents(sf::Event &event)
 
 void Player::Update(Real duration)
 {
-    m_velocity.Truncate(m_speed);
+    //m_velocity.Truncate(m_speed);
+    m_position += m_velocity * duration;
 
-    m_levelPos += m_velocity * duration;
+    gWorld.m_camera.FollowMe(this, true);
 
-    //Vec2D pos = *(Vec2D*)&m_transformMat.Transform(*(sf::Vector2f *)&m_position);
-    //sf::Vector2f *vec = (sf::Vector2f *)&m_position;
-    //m_sprite.SetPosition(*vec);
+    if(m_position.x < m_halfWidth)
+    {
+        m_position.x = m_halfWidth;
+    }
+    else if(m_position.x > gWorld.GetLevel().m_levelWidth - m_halfWidth)
+    {
+        m_position.x = gWorld.GetLevel().m_levelWidth - m_halfWidth;
+    }
+    
+    if(m_position.y < m_halfHeight)
+    {
+        m_position.y = m_halfHeight;
+    }
+    else if(m_position.y > gWorld.GetLevel().m_levelHeight - m_halfHeight)
+    {
+        m_position.y = gWorld.GetLevel().m_levelHeight - m_halfHeight;
+    }
+}
 
-    gWorld.GetLevel().SetPosition(m_levelPos);
+void Player::UseFreeMovement(Real duration)
+{/*
+    Vec2D tmpVel = m_velocity.Opposite() * duration;
+    Vec2D tmpLevelPos = m_levelPos;
+    tmpLevelPos += tmpVel;
+
+    Real lastZoneWidth = (Real)(gWorld.GetLevel().m_levelWidth - gWorld.GetParams().m_zoneWidth);
+    Real lastZoneHeight = (Real)(gWorld.GetLevel().m_levelHeight - gWorld.GetParams().m_zoneHeight);
+
+    if(tmpLevelPos.x < 0)
+    {
+        m_freeMovement |= LEFT;
+    }
+
+    if(m_freeMovement & LEFT)
+    {
+        m_position.x += tmpVel.x;
+        m_freeMovement &= 0x1110;
+    }
+
+    if(!(m_freeMovement & LEFT))
+    {
+        m_levelPos.x += -tmpVel.x;
+    }
+    /*
+    if(m_position.x < gWorld.GetWindowCenter().x && timedVel.x > 0
+        && -m_levelPos.x < gWorld.GetParams().m_zoneWidth)
+    {
+        m_position.x += timedVel.x;
+        m_levelPos.x = 0;
+    }
+    else if(m_position.x > gWorld.GetWindowCenter().x && timedVel.x < 0
+        && -m_levelPos.x > lastZoneWidth)
+    {
+        m_position.x += timedVel.x;
+        m_levelPos.x = -lastZoneWidth;
+    }
+
+    if(m_position.y < gWorld.GetWindowCenter().y && timedVel.y > 0)
+    {
+        m_position.y += timedVel.y;
+        m_levelPos.y = 0;
+    }
+    else if(m_position.y > gWorld.GetWindowCenter().y && timedVel.y < 0)
+    {
+        m_position.y += timedVel.y;
+        m_levelPos.y = -lastZoneHeight;
+    }
+
+    if(oppositeDir.x < 0)
+    {
+        m_position.x += timedVel.x;
+        m_levelPos.x = 0;
+    }
+    else if(oppositeDir.x > (Real)gWorld.GetLevel().m_levelWidth)
+    {
+        m_position.x += timedVel.x;
+        m_levelPos.x = -lastZoneWidth;
+    }
+
+    if(oppositeDir.y < 0)
+    {
+        m_position.y += timedVel.y;
+        m_levelPos.y = 0;
+    }
+    else if(oppositeDir.y > lastZoneHeight)
+    {
+        m_position.y += timedVel.y;
+        m_levelPos.y = -lastZoneHeight;
+    }
+    */
 }
 
 Vec2D Player::GetWorldPos()

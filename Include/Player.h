@@ -61,6 +61,11 @@ public:
         return m_heading;
     }
 private:
+    void UseFreeMovement(Real duration);
+
+    enum {LEFT = 1, RIGHT=2, UP=4, DOWN=8};
+    char m_freeMovement;
+
     Vec2D m_velocity;///< Velocity of player.
     Vec2D m_heading;///< Heading of a player.
     Vec2D m_levelPos;///< Level pos.

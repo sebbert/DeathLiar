@@ -23,12 +23,6 @@
 #include <limits>
 #include <cassert>
 
-#define PI 3.1415926535
-#define PI_OVER_180 0.0174532925
-#define _180_OVER_PI 57.295779513
-#define HALF_PI 1.570796326
-#define TWO_PI  6.283185307
-
 #ifdef DOUBLE_PRECISION
     typedef double Real;
     #define EPSILON DBL_EPSILON
@@ -36,6 +30,12 @@
     typedef float Real;
     #define EPSILON FLT_EPSILON
 #endif
+
+#define PI (Real)3.1415926535
+#define PI_OVER_180 (Real)0.0174532925
+#define _180_OVER_PI (Real)57.295779513
+#define HALF_PI (Real)1.570796326
+#define TWO_PI  (Real)6.283185307
 
 const int MaxInt = (std::numeric_limits<int>::max)();
 const double MaxReal = (std::numeric_limits<float>::max)();

@@ -31,7 +31,9 @@ bool Entity::SetSprite(const char *fileName)
     if(image != 0)
     {
         m_sprite.SetImage(*image);
-        m_sprite.SetCenter((Real)image->GetWidth() * 0.5, (Real)image->GetHeight() * 0.5);
+        m_sprite.SetCenter((Real)image->GetWidth() * (Real)0.5, (Real)image->GetHeight() * (Real)0.5);
+        m_halfWidth = m_sprite.GetImage()->GetWidth() * (Real)0.5;
+        m_halfHeight = m_sprite.GetImage()->GetHeight() * (Real)0.5;
     }
 
     return image ? true : false;
@@ -40,13 +42,24 @@ bool Entity::SetSprite(const char *fileName)
 void Entity::SetSprite(sf::Image &image)
 {
     m_sprite.SetImage(image);
+    m_halfWidth = m_sprite.GetImage()->GetWidth() * (Real)0.5;
+    m_halfHeight = m_sprite.GetImage()->GetHeight() * (Real)0.5;
 }
 
 void Entity::Draw(Real duration)
 {
     Update(duration);
 
-    m_sprite.SetPosition(m_position.x, m_position.y);
+    //Transform word coords to "clip" coords.
+    Vec2D finalPos = m_position + gWorld.GetCameraPos();
+    m_sprite.SetPosition(finalPos.x, finalPos.y);
+
+    //Don't draw sprite if out of screen.
+    if(finalPos.x + m_halfWidth < 0 || finalPos.x - m_halfWidth > gWorld.GetParams().m_windowWidth 
+        || finalPos.y + m_halfHeight < 0 || finalPos.y - m_halfHeight > gWorld.GetParams().m_windowHeight)
+    {
+        return;
+    }
     gWindow->Draw(m_sprite);
 }
 

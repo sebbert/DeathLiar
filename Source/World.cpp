@@ -23,9 +23,11 @@ void World::Init()
     m_window.Create(sf::VideoMode(m_params.m_windowWidth, m_params.m_windowHeight, 32), "Deathliar");
     m_window.SetFramerateLimit(30);
 
+    m_halfWin.x = m_params.m_windowWidth * (Real)0.5;
+    m_halfWin.y = m_params.m_windowHeight * (Real)0.5;
     m_bGameOn = true;
 
-    m_level.Init();
+    m_level.Init("Graveyard");
 
     m_player.Init();
     m_player.SetSprite("Media/Player.png");
@@ -72,7 +74,7 @@ void World::Update()
         m_level.Draw();
         m_player.Draw(GetFrameTime());
         m_enemy.Draw(GetFrameTime());
-        
+
         m_window.Display();
 
         if(m_bSingleFrame)

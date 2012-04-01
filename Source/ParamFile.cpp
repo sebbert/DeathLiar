@@ -13,6 +13,9 @@ void ParamFile::Init()
     m_windowWidth = GetParamAsInt();
     m_windowHeight = GetParamAsInt();
 
+    m_zoneWidth = GetParamAsInt();
+    m_zoneHeight = GetParamAsInt();
+
     m_playerSpeed = GetParamAsReal();
     m_enemySpeed = GetParamAsReal();
 }

@@ -31,6 +31,9 @@ public:
 
     int m_windowWidth;
     int m_windowHeight;
+
+    int m_zoneWidth;
+    int m_zoneHeight;
 private:
     int GetParamAsInt();
     bool GetParamAsBool();

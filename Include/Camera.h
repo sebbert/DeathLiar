@@ -13,26 +13,19 @@
 * Copyright © 2012 Emil Sandstø, Sebastian Reinhard
 * 
 */
-#ifndef LEVEL_H_
-#define LEVEL_H_
+#ifndef CAMERA_H_
+#define CAMERA_H_
 
-#include <SFML/Graphics.hpp>
 #include "Vec2D.h"
 
-class Level
+class Entity;
+
+class Camera
 {
 public:
-    void Init(const char *levelName);
+    void FollowMe(Entity *entity, bool center = false);
 
-    void Draw();
-
-    int GetZoneFromPoint(const Vec2D &point);
-
-    int m_levelWidth;
-    int m_levelHeight;
-private:
-    sf::Sprite m_zones[9];///< Zones of the scrolling background. Each zone is 1024x1024 pixels wide.
-    Vec2D m_zonePositions[9];///< Positions of the zones.
+    Vec2D m_position;
 };
 
 #endif

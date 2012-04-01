@@ -99,13 +99,11 @@ public:
 	virtual void Kill();
 
 private:
-    Vec2D Pursuit();
     Vec2D Arrive();
 
     bool m_calculateForce;
     Vec2D m_velocity;       ///< Velocity of enemy.
     Vec2D m_heading;        ///< Heding of enemy.
-    Vec2D m_localPos;
 
 	Real m_Speed;			///< The speed of the enemy.
     Real m_mass;            ///< Mass of a enemy;
