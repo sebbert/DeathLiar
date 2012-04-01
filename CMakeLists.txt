@@ -18,6 +18,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Include)
 set(LIBS ${LIBS} ${SFML_LIBRARIES})
 
 set(HDRS 
+	${INC_PATH}/Camera.h
 	${INC_PATH}/ParamFile.h
 	${INC_PATH}/Level.h
 	${INC_PATH}/Player.h
@@ -31,6 +32,7 @@ set(HDRS
 	${INC_PATH}/Axe.h)
 
 set(SRCS 
+	${SRC_PATH}/Camera.cpp
 	${SRC_PATH}/ParamFile.cpp
 	${SRC_PATH}/Level.cpp
 	${SRC_PATH}/Entity.cpp
