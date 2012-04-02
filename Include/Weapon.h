@@ -19,6 +19,18 @@
 
 #include "Entity.h"
 
+class Bullet : public Entity
+{
+public:
+    void Create(Real mass, int damage, Vec2D &startPos, Vec2D &force);
+
+    Real mass;
+    Real m_oneOverMass;
+    int m_damage;
+    Vec2D m_velocity;
+    Vec2D m_force;
+};
+
 class Weapon : public Entity
 {
 public:
@@ -80,7 +92,7 @@ public:
         m_WeaponDamage = weaponDamage;
     }
 
-private:
+protected:
     int m_Damage;       ///< How much damage the weapon makes for each hit.
     int m_WeaponHealth; ///< The weapon's health, e.g. how many bullets are in a gun. Ranges from 0 to m_MaxHealth.
     int m_MaxHealth;    ///< The maximum health of the weapon.

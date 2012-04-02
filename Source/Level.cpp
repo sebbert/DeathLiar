@@ -108,7 +108,7 @@ void Level::Draw()
         if(zones[i] >= 0)
         {
             std::cout << zones[i] << ", ";
-            point = gWorld.GetCameraPos();
+            point = gWorld.m_camera.m_position;
             point += m_zonePositions[zones[i]];
             
             m_zones[zones[i]].SetPosition(point.x, point.y);
