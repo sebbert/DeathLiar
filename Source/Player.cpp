@@ -66,7 +66,7 @@ void Player::HandleEvents(sf::Event &event)
     if(event.Type == sf::Event::MouseMoved)
     {
         Vec2D mousePos((Real)event.MouseMove.X, (Real)event.MouseMove.Y);
-        Vec2D playerPos(m_position.x + m_halfWidth, m_position.y + m_halfHeight);
+        Vec2D playerPos(m_position.x + gWorld.m_camera.m_position.x + m_halfWidth, m_position.y + gWorld.m_camera.m_position.y  + m_halfHeight);
  
         float angle = (float)RadToDeg(AngleBetweenPoints(playerPos, mousePos)) + (Real)90.0;
 
