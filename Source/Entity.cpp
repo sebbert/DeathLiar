@@ -19,10 +19,12 @@
 #include "World.h"
 
 sf::Uint16 Entity::sNextID = 0;
+std::map<sf::Uint16, Entity*> Entity::m_entities;
 
 Entity::Entity()
 {
     m_id = GetNextID();
+    AddEntity(m_id, this);
 }
 
 bool Entity::SetSprite(const char *fileName)

@@ -18,18 +18,7 @@
 #define WEAPON_H_
 
 #include "Entity.h"
-
-class Bullet : public Entity
-{
-public:
-    void Create(Real mass, int damage, Vec2D &startPos, Vec2D &force);
-
-    Real mass;
-    Real m_oneOverMass;
-    int m_damage;
-    Vec2D m_velocity;
-    Vec2D m_force;
-};
+#include <vector>
 
 class Weapon : public Entity
 {
@@ -48,13 +37,13 @@ public:
      * Fires or starts firing the weapon.
      * Should be called on mouse down.
      */
-    virtual void Hit() = 0;
+    virtual void Fire() {}
 
     /**
      * Stops hitting.
      * Should be called on mouse release.
      */
-    virtual void StopHitting() = 0;
+    virtual void StopFire() {}
 
     /**
      * Sets how much damage the weapon makes for each hit.
@@ -92,11 +81,74 @@ public:
         m_WeaponDamage = weaponDamage;
     }
 
-protected:
     int m_Damage;       ///< How much damage the weapon makes for each hit.
     int m_WeaponHealth; ///< The weapon's health, e.g. how many bullets are in a gun. Ranges from 0 to m_MaxHealth.
     int m_MaxHealth;    ///< The maximum health of the weapon.
     int m_WeaponDamage; ///< How much damage the weapon takes each hit.
 };
+
+/**
+ * Bullet is a special form of weapon. It is fired by a weapon.
+ */
+class Bullet : public Weapon
+{
+public:
+    Bullet();
+    Bullet(Real mass, int damage, int maxHealth, int weaponDamage, Vec2D &startPos, Vec2D &force) : 
+    Weapon(damage, maxHealth, weaponDamage), m_mass(mass), m_oneOverMass((Real)1.0 / mass)
+    {
+       m_position = startPos;
+       m_velocity = force * m_oneOverMass;
+    }
+
+    void Update(Real duration);
+
+    Real m_mass;
+    Real m_oneOverMass;
+    Vec2D m_velocity;
+};
+
+/**
+ * BulletManager handles the bullets fired in the world.
+ */
+class BulletManager
+{
+public:
+    void Init();
+
+    /**
+     * Fire a bullet.
+     * @aram bullet Bullet which should be fired.
+     */
+    void FireBullet(const char *image, Real mass, int damage, int maxHealth, int weaponDamage, Vec2D &startPos, Vec2D &force);
+
+    /**
+     * Update all the bullets and destroy them if necessary.
+     */
+    void Update(Real duration);
+
+    /**
+     * Resolves collisions betweens bullets and a entity.
+     */ 
+    void ResolveCollisions(CreatureEntity *entity);
+
+    static BulletManager &Instance()
+    {
+        static BulletManager instance;
+        return instance;
+    }
+
+    typedef std::vector<Bullet>::iterator BulletIter;
+    std::vector<Bullet> m_bullets;
+private:
+    /**
+     * Prevent constructor, copy constructor, and copy operator to be called outside of class.
+     */
+    BulletManager() {}
+    BulletManager(const BulletManager&) {}
+    void operator =(const BulletManager&){}
+};
+
+#define gBulletMgr BulletManager::Instance()
 
 #endif

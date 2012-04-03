@@ -15,6 +15,8 @@
 */
 
 #include "World.h"
+#include "Weapon.h"
+#include "GameMaster.h"
 
 void World::Init()
 {
@@ -28,13 +30,13 @@ void World::Init()
     m_bGameOn = true;
 
     m_level.Init("Graveyard");
+    gBulletMgr.Init();
 
     m_player.Init();
     m_player.SetSprite("Media/Player.png");
+    m_player.SetHealth(200);
 
-    m_enemy.SetSpeed(m_params.m_enemySpeed);
-    m_enemy.SetMass(1.0);
-    m_enemy.SetSprite("Media/Zombie.png");
+    gGameMaster.Init();
 }
 
 void World::Update()
@@ -73,7 +75,9 @@ void World::Update()
     
         m_level.Draw();
         m_player.Draw(GetFrameTime());
-        m_enemy.Draw(GetFrameTime());
+        gGameMaster.Update(GetFrameTime());
+
+        gBulletMgr.Update(GetFrameTime());
 
         m_window.Display();
 
@@ -83,6 +87,16 @@ void World::Update()
             m_bPaused = true;
         }
     }
+}
+
+bool World::IsInLevel(const Vec2D &point)
+{
+    if(point.x < 0 || point.x > m_level.m_levelWidth || point.y < 0 || point.y > m_level.m_levelHeight)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void World::Destroy()

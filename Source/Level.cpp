@@ -100,14 +100,10 @@ void Level::Draw()
         }
     }
 
-    PrintVec2D("Camera pos", gWorld.GetCameraPos());
-    std::cout << "Zones drawn: ";
-
     for(int i = 0;i < 4;i++)
     {
         if(zones[i] >= 0)
         {
-            std::cout << zones[i] << ", ";
             point = gWorld.m_camera.m_position;
             point += m_zonePositions[zones[i]];
             
@@ -115,8 +111,6 @@ void Level::Draw()
             gWindow->Draw(m_zones[zones[i]]);
         }
     }
-
-    std::cout << "\n";
 }
 
 int Level::GetZoneFromPoint(const Vec2D &point)

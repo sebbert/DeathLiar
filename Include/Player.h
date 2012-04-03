@@ -17,12 +17,14 @@
 #define PLAYER_H_
 
 #include "Entity.h"
+#include "Weapon.h"
+#include "Pistol.h"
 #include <SFML/Graphics.hpp>
 
 /**
  * Player is the entity the user is controlling.
  */
-class Player : public Entity
+class Player : public CreatureEntity
 {
 public:
     Player();
@@ -61,10 +63,8 @@ public:
         return m_heading;
     }
 private:
-    void UseFreeMovement(Real duration);
-
-    enum {LEFT = 1, RIGHT=2, UP=4, DOWN=8};
-    char m_freeMovement;
+    Weapon *m_currentWeapon;///< Current weapon of player.
+    Pistol m_pistol;
 
     Vec2D m_velocity;///< Velocity of player.
     Vec2D m_heading;///< Heading of a player.
@@ -72,8 +72,8 @@ private:
 
     Real m_speed;///< Speed of player.
 
-    int m_maxHealth;///< Maxium health of a player.
-    int m_health;///< Current health of player.
+    enum {LEFT = 1, RIGHT=2, UP=4, DOWN=8};
+    char m_freeMovement;
 };
 
 #endif

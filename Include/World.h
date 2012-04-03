@@ -82,13 +82,18 @@ public:
         return m_halfWin;
     }
 
+    /**
+     * Checks if point is inside the boundary of the level.
+     * @return True if inside, and false if not.
+     */
+    bool IsInLevel(const Vec2D &point);
+
     Camera m_camera;            ///< Camera, which alter all the objects in the scene.
 private:
     World() {}
     World(const World&) {}
     World operator =(const World&) {}
 
-    Enemy m_enemy;              ///< AI driven enemy.
     Player m_player;            ///< User controlled entity.
     sf::RenderWindow m_window;  ///< Handle the window.
     Level m_level;              ///< Game level.

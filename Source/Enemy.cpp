@@ -17,14 +17,11 @@
 #include "Enemy.h"
 #include "World.h"
 #include "Mathutil.h"
+#include "Weapon.h"
 
 Enemy::Enemy()
 {
 	m_Speed = 0.0;
-	m_MaxLives = 0;
-	m_Lives = 0;
-	m_MaxHealth = 0;
-	m_Health = 0;
     m_heading.y = 1.0;
 }
 
@@ -47,7 +44,7 @@ void Enemy::Update(Real duration)
 
     m_position += m_velocity * duration;
 
-    m_velocity *= (Real)0.99;
+    m_velocity *= std::pow((Real)0.99, duration);
 
     if(m_velocity.MagnitudeSquared() > 0.000000001)
     {
@@ -57,6 +54,8 @@ void Enemy::Update(Real duration)
 
         m_sprite.SetRotation(angle - 90);
     }
+
+    gBulletMgr.ResolveCollisions(this);
 }
 
 Vec2D Enemy::Arrive()
@@ -81,46 +80,15 @@ void Enemy::SetSpeed(Real speed)
 	m_Speed = speed;
 }
 
-void Enemy::SetLives(int lives)
-{
-	m_Lives = lives;
-}
-
-void Enemy::SetMaxLives(int maxLives)
-{
-	m_MaxLives = maxLives;
-}
-
-void Enemy::SetHealth(int health)
-{
-	m_Health = health;
-}
-
-void Enemy::SetMaxHealth(int maxHealth)
-{
-	m_MaxHealth = maxHealth;
-}
-
-void Enemy::Damage()
-{
-	m_Health--;
-}
-
-void Enemy::Hurt()
-{
-	m_Health = m_MaxHealth;
-	m_Lives--;
-}
-
-void Enemy::Kill()
-{
-	m_Health = m_Lives = 0;
-}
-
 void Enemy::Destroy()
 {
 }
 
-void Enemy::Init()
+void Enemy::Init(int maxHealth, Real speed, Real mass, const char *image)
 {
+    m_maxHealth = maxHealth;
+    m_health = maxHealth;
+    m_Speed = speed;
+    m_mass = mass;
+    SetSprite(image);
 }

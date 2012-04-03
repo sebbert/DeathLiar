@@ -14,19 +14,23 @@
 * 
 */
 
+#include <iostream>
+
 #include "Player.h"
 #include "Entity.h"
 #include "World.h"
-#include <iostream>
+#include "GameMaster.h"
 
 Player::Player()
 {
+    m_currentWeapon = 0;
 }
 
 void Player::Init()
 {
     m_speed = gWorld.GetParams().m_playerSpeed;
     m_position = gWorld.GetWindowCenter();
+    m_currentWeapon = &m_pistol;
 }
 
 void Player::HandleEvents(sf::Event &event)
@@ -63,6 +67,15 @@ void Player::HandleEvents(sf::Event &event)
         }
     }
 
+    if(event.Type == sf::Event::MouseButtonPressed)
+    {
+        //Fire weapon, or use weapon if mouse button is pressed.
+        if(event.MouseButton.Button == sf::Mouse::Left)
+        {
+            m_currentWeapon->Fire();
+        }
+    }
+
     if(event.Type == sf::Event::MouseMoved)
     {
         Vec2D mousePos((Real)event.MouseMove.X, (Real)event.MouseMove.Y);
@@ -74,6 +87,8 @@ void Player::HandleEvents(sf::Event &event)
 
         m_heading = playerPos - mousePos;
         m_heading.Normalize();
+
+        m_pistol.m_heading = m_heading;
     }
 }
 
@@ -101,79 +116,15 @@ void Player::Update(Real duration)
     {
         m_position.y = gWorld.GetLevel().m_levelHeight - m_halfHeight;
     }
-}
 
-void Player::UseFreeMovement(Real duration)
-{/*
-    Vec2D tmpVel = m_velocity.Opposite() * duration;
-    Vec2D tmpLevelPos = m_levelPos;
-    tmpLevelPos += tmpVel;
+    m_pistol.GetPosition() = m_position;
 
-    Real lastZoneWidth = (Real)(gWorld.GetLevel().m_levelWidth - gWorld.GetParams().m_zoneWidth);
-    Real lastZoneHeight = (Real)(gWorld.GetLevel().m_levelHeight - gWorld.GetParams().m_zoneHeight);
-
-    if(tmpLevelPos.x < 0)
+    gGameMaster.ResolveCollision(this);
+    if(m_health <= 0)
     {
-        m_freeMovement |= LEFT;
+        std::cout << "Your are dead, sorry. I bet you have better luck next time!\n" << std::endl;
+        //gGameMaster.Init();
     }
-
-    if(m_freeMovement & LEFT)
-    {
-        m_position.x += tmpVel.x;
-        m_freeMovement &= 0x1110;
-    }
-
-    if(!(m_freeMovement & LEFT))
-    {
-        m_levelPos.x += -tmpVel.x;
-    }
-    /*
-    if(m_position.x < gWorld.GetWindowCenter().x && timedVel.x > 0
-        && -m_levelPos.x < gWorld.GetParams().m_zoneWidth)
-    {
-        m_position.x += timedVel.x;
-        m_levelPos.x = 0;
-    }
-    else if(m_position.x > gWorld.GetWindowCenter().x && timedVel.x < 0
-        && -m_levelPos.x > lastZoneWidth)
-    {
-        m_position.x += timedVel.x;
-        m_levelPos.x = -lastZoneWidth;
-    }
-
-    if(m_position.y < gWorld.GetWindowCenter().y && timedVel.y > 0)
-    {
-        m_position.y += timedVel.y;
-        m_levelPos.y = 0;
-    }
-    else if(m_position.y > gWorld.GetWindowCenter().y && timedVel.y < 0)
-    {
-        m_position.y += timedVel.y;
-        m_levelPos.y = -lastZoneHeight;
-    }
-
-    if(oppositeDir.x < 0)
-    {
-        m_position.x += timedVel.x;
-        m_levelPos.x = 0;
-    }
-    else if(oppositeDir.x > (Real)gWorld.GetLevel().m_levelWidth)
-    {
-        m_position.x += timedVel.x;
-        m_levelPos.x = -lastZoneWidth;
-    }
-
-    if(oppositeDir.y < 0)
-    {
-        m_position.y += timedVel.y;
-        m_levelPos.y = 0;
-    }
-    else if(oppositeDir.y > lastZoneHeight)
-    {
-        m_position.y += timedVel.y;
-        m_levelPos.y = -lastZoneHeight;
-    }
-    */
 }
 
 Vec2D Player::GetWorldPos()

@@ -64,7 +64,21 @@ public:
         return m_position;
     }
 
+    static Entity *GetEntity(sf::Uint16 id)
+    {
+        return m_entities[id];
+    }
+
+    static std::map<sf::Uint16, Entity*> m_entities;
+
+    Real m_halfWidth;           ///< Half width of image.
+    Real m_halfHeight;          ///< Half height of image.
 protected:
+    static void AddEntity(sf::Uint16 id, Entity *entity)
+    {
+        m_entities[id] = entity; 
+    }
+
     static sf::Uint16 GetNextID()
     {
         return Entity::sNextID++;
@@ -74,8 +88,22 @@ protected:
     sf::Sprite m_sprite;        ///< Sprite of a entity.
     sf::Uint16 m_id;            ///< ID of sprite.
     static sf::Uint16 sNextID;  ///< ID for the next entity created.
-    Real m_halfWidth;           ///< Half width of image.
-    Real m_halfHeight;          ///< Half height of image.
+};
+
+/**
+ * Creature entity, is a entity with health.
+ */
+class CreatureEntity : public Entity
+{
+public:
+    void SetHealth(int maxHealth)
+    {
+        m_maxHealth = maxHealth;
+        m_health = maxHealth;
+    }
+
+    int m_maxHealth;
+    int m_health;
 };
 
 #endif

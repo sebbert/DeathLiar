@@ -24,7 +24,7 @@
 /**
  * An enemy class. This should be used for zombies, etc.
  */
-class Enemy : public Entity
+class Enemy : public CreatureEntity
 {
 public:
 	/**
@@ -40,7 +40,7 @@ public:
 	/**
 	 * Initalizes the enemy.
 	 */
-	virtual void Init();
+	virtual void Init(int maxHealth, Real speed, Real mass, const char *image);
 
 	/**
 	 * Destroys the enemy.
@@ -59,60 +59,16 @@ public:
 	 * @param speed The speed.
 	 */
 	void SetSpeed(Real speed);
-
-	/**
-	 * Sets the amount of lives.
-	 * @param lives The amount of lives.
-	 */
-	void SetLives(int lives);
-
-	/**
-	 * Sets the maximum amount of lives.
-	 * @param maxLives The amount of lives.
-	 */
-	void SetMaxLives(int maxLives);
-
-	/**
-	 * Sets the health.
-	 */
-	void SetHealth(int health);
-
-	/**
-	 * Sets the maximum health.
-	 * @param maxHealth The maximum health.
-	 */
-	void SetMaxHealth(int maxHealth);
-
-	/**
-	 * Damages the enemy. Removes 1 health.
-	 */
-	virtual void Damage();
-
-	/**
-	 * Hurts the enemy. Removes 1 life and sets the health to full.
-	 */
-	virtual void Hurt();
-
-	/**
-	 * Kills the enemy. Removes all lives.
-	 */
-	virtual void Kill();
-
+        
+    Vec2D m_velocity;       ///< Velocity of enemy.
 private:
     Vec2D Arrive();
 
     bool m_calculateForce;
-    Vec2D m_velocity;       ///< Velocity of enemy.
     Vec2D m_heading;        ///< Heding of enemy.
 
 	Real m_Speed;			///< The speed of the enemy.
     Real m_mass;            ///< Mass of a enemy;
-
-	int m_MaxLives;			///< The maximum amount of lives.
-	int m_Lives;			///< The amount of lives.
-
-	int m_MaxHealth;		///< The maximum health.
-	int m_Health;			///< The amount of health.
 };
 
 #endif /* ENEMY_H */
