@@ -16,7 +16,7 @@ void GameMaster::Destroy()
 void GameMaster::NewWave()
 {
     ++m_wave;
-    m_numEnemies = 50;
+    m_numEnemies = m_wave * 5;
     for(int i = 0;i < m_numEnemies;i++)
     {
         Vec2D pos((Real)sf::Randomizer::Random(0, gWorld.GetLevel().m_levelWidth), (Real)sf::Randomizer::Random(0, gWorld.GetLevel().m_levelHeight));
@@ -71,12 +71,17 @@ void GameMaster::Separation()
         int zone = gWorld.GetLevel().GetZoneFromPoint(m_enemies[i].GetPosition());
         for(int j = 0;j < m_numEnemies;j++)
         {
-            if(zone == gWorld.GetLevel().GetZoneFromPoint(m_enemies[j].GetPosition()))
+            if(i != j)
             {
-                Vec2D between = m_enemies[i].GetPosition() - m_enemies[j].GetPosition();
-                if(between.MagnitudeSquared() < (Real)2.0 * m_enemies[i].m_halfWidth * m_enemies[i].m_halfWidth)
+                if(zone == gWorld.GetLevel().GetZoneFromPoint(m_enemies[j].GetPosition()))
                 {
-                    m_enemies[j].m_velocity += between.Opposite() * gWorld.GetFrameTime();
+                    Vec2D between = m_enemies[j].GetPosition() - m_enemies[i].GetPosition();
+                    if(between.MagnitudeSquared() < 2 * m_enemies[i].m_halfWidth * m_enemies[i].m_halfWidth)
+                    {
+                        //between.Normalize();
+                        //Vec2D force = between * m_enemies[j].GetSpeed() * gWorld.GetFrameTime();
+                        m_enemies[j].m_velocity += between * gWorld.GetFrameTime();
+                    }
                 }
             }
         }

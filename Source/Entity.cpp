@@ -55,7 +55,7 @@ void Entity::Draw(Real duration)
     //Transform word coords to "clip" coords.
     Vec2D finalPos = m_position + gWorld.m_camera.m_position;
     m_sprite.SetPosition(finalPos.x, finalPos.y);
-
+    
     //Don't draw sprite if out of screen.
     if(finalPos.x + m_halfWidth < 0 || finalPos.x - m_halfWidth > gWorld.GetParams().m_windowWidth 
         || finalPos.y + m_halfHeight < 0 || finalPos.y - m_halfHeight > gWorld.GetParams().m_windowHeight)

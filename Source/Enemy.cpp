@@ -92,3 +92,14 @@ void Enemy::Init(int maxHealth, Real speed, Real mass, const char *image)
     m_mass = mass;
     SetSprite(image);
 }
+
+void Enemy::FindNeighbours(int numEnemies, Enemy *enemies)
+{/*
+    for(int i = 0;i < numEnemies;i++)
+    {
+        if(gWorld.GetLevel().GetZoneFromPoint(m_position) == gWorld.GetLevel().GetZoneFromPoint(enemies[i].GetPosition()))
+        {
+            Vec2D toNeighbour = 
+        }
+    }*/
+}

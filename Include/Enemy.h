@@ -20,6 +20,7 @@
 #include "MathUtil.h"
 #include "Vec2D.h"
 #include "Entity.h"
+#include <vector>
 
 /**
  * An enemy class. This should be used for zombies, etc.
@@ -60,7 +61,20 @@ public:
 	 */
 	void SetSpeed(Real speed);
         
+    Real GetSpeed()
+    {
+        return m_Speed;
+    }
+
     Vec2D m_velocity;       ///< Velocity of enemy.
+
+    /**
+     * Find neighbours enemies, by iterating through a array of enemies.
+     */
+    void FindNeighbours(int numEnemies, Enemy *enemies);
+
+    std::vector<Enemy*> m_neighbours;///< Neighbour enemies in neighbour radius of enemy. 
+    int m_neighbourRadius;///< Radius of the neightbours
 private:
     Vec2D Arrive();
 
