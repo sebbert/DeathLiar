@@ -294,6 +294,14 @@ inline float AngleBetweenPoints(const Vec2D& p1, const Vec2D& p2)
 	return radians;
 }
 
+inline bool PointIsInside(const Vec2D &point, sf::Rect<Real> &boundBox)
+{
+    if(point.x >= boundBox.Left && point.x <= boundBox.Right ||  point.y >= boundBox.Top && point.y <= boundBox.Bottom)
+        return true;
+
+    return false;
+}
+
 /**
  * Returns a SFML vector of a vector.
  * @param vec The vector to create a SFML vector of.
