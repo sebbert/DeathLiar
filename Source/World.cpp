@@ -45,6 +45,12 @@ void World::Update()
     while(m_window.GetEvent(event))
     {
         m_player.HandleEvents(event);
+        
+        if(m_bLevelEditor)
+        {
+            m_levelEditor.HandleEvents(event);
+        }
+
         if(event.Type == sf::Event::Closed)
         {
             m_bGameOn = false;
@@ -66,6 +72,11 @@ void World::Update()
                 m_bSingleFrame = true;
                 m_bPaused = false;
             }
+            else if(event.Key.Code == sf::Key::F10)
+            {
+                m_bLevelEditor = true;
+                m_levelEditor.Init();
+            }
         }
     }
     
@@ -74,10 +85,17 @@ void World::Update()
         m_window.Clear(sf::Color(255, 255, 255));    
     
         m_level.Draw();
-        m_player.Draw(GetFrameTime());
-        gGameMaster.Update(GetFrameTime());
+        if(!m_bLevelEditor)
+        {
+            m_player.Draw(GetFrameTime());
+            gGameMaster.Update(GetFrameTime());
 
-        gBulletMgr.Update(GetFrameTime());
+            gBulletMgr.Update(GetFrameTime());
+        }
+        else
+        {
+            m_levelEditor.Draw();
+        }
 
         m_window.Display();
 
@@ -99,6 +117,8 @@ bool World::IsInLevel(const Vec2D &point)
     return true;
 }
 
-void World::Destroy()
+World::~World()
 {
+    gGameMaster.Destroy();
+    m_levelEditor.Destroy();
 }

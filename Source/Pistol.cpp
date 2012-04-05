@@ -1,8 +1,18 @@
 #include "Pistol.h"
 #include "Weapon.h"
 
+Pistol::Pistol()
+{
+    m_secBetweenShots = 0.5f;
+    m_clock.Reset();
+}
+
 void Pistol::Fire()
 {
-    Vec2D force = m_heading.Opposite() * 500.0;
-    gBulletMgr.FireBullet("Media/pistolBullet.png", 0.5, 100, 20, 10, m_position, force);
+    if(m_clock.GetElapsedTime() > (Real)m_secBetweenShots)
+    {
+        Vec2D force = m_heading.Opposite() * 500.0;
+        gBulletMgr.FireBullet("Media/pistolBullet.png", 0.5, 35, 1, 1, m_position, force);
+        m_clock.Reset();
+    }
 }

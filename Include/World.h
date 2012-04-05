@@ -25,15 +25,16 @@
 #include "Enemy.h"
 #include "ParamFile.h"
 #include "Camera.h"
+#include "LevelEditor.h"
 
 class World
 {
 public:
+    ~World();
+
     void Init();
 
     void Update();
-
-    void Destroy();
 
     static World &Instance()
     {
@@ -94,6 +95,8 @@ private:
     World(const World&) {}
     World operator =(const World&) {}
 
+    LevelEditor m_levelEditor;
+
     Player m_player;            ///< User controlled entity.
     sf::RenderWindow m_window;  ///< Handle the window.
     Level m_level;              ///< Game level.
@@ -105,6 +108,7 @@ private:
     bool m_bSingleFrame;        ///< Single frame application.
     bool m_bGameOn;             ///< True if game should run.
     bool m_bPaused;             ///< True if game is paused.
+    bool m_bLevelEditor;        ///< Start up level editor.
 };
 
 #define gWorld World::Instance()

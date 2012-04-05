@@ -13,22 +13,24 @@
 * Copyright © 2012 Emil Sandstø, Sebastian Reinhard
 * 
 */
+#ifndef WALL_H_
+#define WALL_H_
 
-#include "Weapon.h"
-#include <SFML/System.hpp>
+#include "Entity.h"
 
 /**
- * Pistol is a lightweight weapon, which don't damage very much. 
- * This weapon single shots, and the shoot frequenzy is low. 
+ * Wall is a solid entity which are used to make safe spot for the player.
+ * A wall has a normal which makes the wall solid on one side and not on the other side.
  */
-class Pistol : public Weapon
+class Wall : public Entity
 {
 public:
-    Pistol();
-
-    void Fire();
-    
-    sf::Clock m_clock;
-    float m_secBetweenShots;
-    Vec2D m_heading;
+    /**
+     * Constructor
+     */
+    Wall(const Vec2D &normal);
+private:
+    Vec2D m_normal;
 };
+
+#endif
