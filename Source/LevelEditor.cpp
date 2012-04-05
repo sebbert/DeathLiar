@@ -9,6 +9,7 @@ void LevelEditor::Init()
     m_maxNumberEntities = 200;
     m_pEntity = 0;
     m_pCurrentEntity = 0;
+    m_currentTool = -1;
 
     m_startPoint.Set(-1, -1);
 
@@ -56,7 +57,21 @@ void LevelEditor::HandleEvents(sf::Event &event)
 
             //Drawing of walls are handled different from other entities.
             if(m_currentTool == WALL)
-            {
+            {/*
+                for(int i = 0;i < m_currentEntity;i++)
+                {
+                    if(m_entities[i]->GetType() == ENTITY_WALL)
+                    {   
+                        CornerPoints points;
+                        Wall *pWall = static_cast<Wall*>(m_entities[i]);
+                        pWall->GetCornerPoints(points);
+                        if(PointIsInsideOOB(mousePos, points.topLeft, points.bottomLeft, points.topRight, points.bottomRight))
+                        {
+                            m_pCurrentEntity = pWall;
+                        }
+                    }
+                }
+                */
                 if(m_startPoint.x < 0 || m_startPoint.y < 0)
                 {
                     m_startPoint = mousePos;
@@ -66,7 +81,6 @@ void LevelEditor::HandleEvents(sf::Event &event)
                 {
                     m_pEntity = 0;
                     m_startPoint.Set(-1, -1);
-                    m_currentTool = 1;
                 }
             }
             else
@@ -104,7 +118,7 @@ void LevelEditor::HandleEvents(sf::Event &event)
                 Wall *wall;
                 wall = static_cast<Wall*>(m_pEntity);
 
-                wall->GetShape() = sf::Shape::Line(*(sf::Vector2f*)&m_startPoint, *(sf::Vector2f*)&mousePos, 30.0, sf::Color(0, 0, 0));
+                wall->Setup(m_startPoint, mousePos);
             }
         }
     }

@@ -149,7 +149,7 @@ public:
      * @param a The vector to multiply by.
      * @return The result of the multiplication.
      */
-    Real operator *(const Vec2D &a)
+    Real operator *(const Vec2D &a) const
     {
         return x * a.x + y * a.y;
     }
@@ -303,11 +303,40 @@ inline bool PointIsInside(const Vec2D &point, const sf::Sprite &sprite)
     return false;
 }
 
+inline bool PointIsInsideOOB(const Vec2D &point, const Vec2D &topLeft, const Vec2D &bottomLeft, const Vec2D &topRight, const Vec2D &bottomRight)
+{
+    Vec2D left = topLeft - bottomLeft;
+    Vec2D right = topRight - bottomRight;
+    Vec2D bottom = bottomRight - bottomLeft;
+    Vec2D top = topRight - topLeft;
+
+    Vec2D leftNormal = Normalize(left.Perp());
+    Vec2D rightNormal = Normalize(right.Perp());
+    Vec2D bottomNormal = Normalize(bottom.Perp());
+    Vec2D topNormal = Normalize(top.Perp());
+
+    Real leftD = left * leftNormal;
+    Real rightD = right * rightNormal;
+    Real bottomD = bottom * bottomNormal;
+    Real topD = top * topNormal;
+
+    Real pointLeftD = point * leftNormal;
+    Real pointRightD = point * rightNormal;
+    Real pointBottom = point * bottomNormal;
+    Real pointTop = point * topNormal;
+    
+    if(pointLeftD < leftD && pointRightD < rightD && pointBottom < bottomD && pointTop < pointTop)
+    {
+        return true;
+    }
+
+    return false;
+}
 /**
  * Returns a SFML vector of a vector.
  * @param vec The vector to create a SFML vector of.
  * @return The SFML vector of the vector.
- *//*
+ *//*                                                                                                                                                                                                                                                                                                                                                                                                                  
 template <typename T>
 void operator =(sf::Vector2<T> &a, const Vec2D& b)
 {

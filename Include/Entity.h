@@ -20,6 +20,8 @@
 #include "Vec2D.h"
 #include <SFML/Graphics.hpp>
 
+enum {ENTITY_PLAYER, ENTITY_WALL};
+
 /**
  * Entity is an object in the game world which can easily be rendered.
  */
@@ -43,7 +45,7 @@ public:
      */
     bool SetSprite(const char *fileName);
     
-    void SetPosition(const Vec2D &pos);
+    virtual void SetPosition(const Vec2D &pos);
 
     /**
      * Virtual function which does nothing.
@@ -74,6 +76,11 @@ public:
         return m_entities[id];
     }
 
+    int GetType()
+    {
+        return m_type;
+    }
+
     static std::map<sf::Uint16, Entity*> m_entities;
 
     Real m_halfWidth;           ///< Half width of image.
@@ -91,6 +98,7 @@ protected:
 
     Vec2D m_position;           ///< Position of a entity.
     sf::Sprite m_sprite;        ///< Sprite of a entity.
+    int m_type;                 ///< Type of entity.
     sf::Uint16 m_id;            ///< ID of sprite.
     static sf::Uint16 sNextID;  ///< ID for the next entity created.
 };

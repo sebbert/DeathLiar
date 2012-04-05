@@ -17,7 +17,9 @@ include_directories(${PROJECT_SOURCE_DIR}/Include)
 
 set(LIBS ${LIBS} ${SFML_LIBRARIES})
 
-set(HDRS 
+set(HDRS
+	${INC_PATH}/LevelEditor.h
+	${INC_PATH}/Wall.h
 	${INC_PATH}/Pistol.h
 	${INC_PATH}/GameMaster.h
 	${INC_PATH}/Camera.h
@@ -34,6 +36,8 @@ set(HDRS
 	${INC_PATH}/Axe.h)
 
 set(SRCS 
+	${SRC_PATH}/LevelEditor.cpp
+	${SRC_PATH}/Wall.cpp
 	${SRC_PATH}/Pistol.cpp
 	${SRC_PATH}/GameMaster.cpp
 	${SRC_PATH}/Camera.cpp

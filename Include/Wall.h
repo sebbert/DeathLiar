@@ -18,6 +18,14 @@
 
 #include "Entity.h"
 
+struct CornerPoints
+{
+    Vec2D topRight;
+    Vec2D topLeft;
+    Vec2D bottomLeft;
+    Vec2D bottomRight;
+};
+
 /**
  * Wall is a solid entity which are used to make safe spot for the player.
  * A wall has a normal which makes the wall solid on one side and not on the other side.
@@ -30,6 +38,10 @@ public:
      */
     Wall(const Vec2D &startPoint, const Vec2D &endPoint);
 
+    void Setup(const Vec2D &startPoint, const Vec2D &endPoint);
+
+    void SetPosition(const Vec2D &pos);
+
     /**
      * Draw the wall.
      */
@@ -39,8 +51,12 @@ public:
     {
         return m_rect;
     }
+
+    void GetCornerPoints(CornerPoints &points);
 private:
     Vec2D m_normal;///< A normal which specifies where on the wall it is solid.
+    Vec2D m_startPoint;
+    Vec2D m_endPoint;
     sf::Shape m_rect;
 };
 

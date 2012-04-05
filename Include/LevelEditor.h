@@ -70,7 +70,7 @@ private:
 
     int m_maxNumberEntities;
     int m_currentEntity;///< Current entity to be added to level if mouse left is pressed.
-    unsigned m_currentTool;
+    int m_currentTool;
 
     sf::Sprite m_wallIcon;///< Icon for wall.
     sf::Sprite m_weaponIcon;///< Icon for weapon.
