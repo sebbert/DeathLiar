@@ -66,6 +66,8 @@ private:
 
     enum Tools{WALL};
 
+    Vec2D m_startPoint;///< Start point of wall.
+
     int m_maxNumberEntities;
     int m_currentEntity;///< Current entity to be added to level if mouse left is pressed.
     unsigned m_currentTool;

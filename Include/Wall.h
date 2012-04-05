@@ -28,9 +28,20 @@ public:
     /**
      * Constructor
      */
-    Wall(const Vec2D &normal);
+    Wall(const Vec2D &startPoint, const Vec2D &endPoint);
+
+    /**
+     * Draw the wall.
+     */
+    void Draw(Real duration);
+
+    sf::Shape &GetShape()
+    {
+        return m_rect;
+    }
 private:
-    Vec2D m_normal;
+    Vec2D m_normal;///< A normal which specifies where on the wall it is solid.
+    sf::Shape m_rect;
 };
 
 #endif

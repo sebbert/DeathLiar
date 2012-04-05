@@ -64,6 +64,11 @@ public:
         return m_position;
     }
 
+    sf::Sprite &GetSprite()
+    {
+        return m_sprite;
+    }
+
     static Entity *GetEntity(sf::Uint16 id)
     {
         return m_entities[id];

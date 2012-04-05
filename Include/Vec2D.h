@@ -294,9 +294,10 @@ inline float AngleBetweenPoints(const Vec2D& p1, const Vec2D& p2)
 	return radians;
 }
 
-inline bool PointIsInside(const Vec2D &point, sf::Rect<Real> &boundBox)
+inline bool PointIsInside(const Vec2D &point, const sf::Sprite &sprite)
 {
-    if(point.x >= boundBox.Left && point.x <= boundBox.Right ||  point.y >= boundBox.Top && point.y <= boundBox.Bottom)
+    Real halfWidth = sprite.GetImage()->GetWidth() * (Real)0.5, halfHeight = sprite.GetImage()->GetHeight() * (Real)0.5;
+    if(point.x >= sprite.GetPosition().x - halfWidth && point.x <= sprite.GetPosition().x + halfWidth && point.y >= sprite.GetPosition().y - halfHeight && point.y <= sprite.GetPosition().y + halfHeight)
         return true;
 
     return false;

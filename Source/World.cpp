@@ -74,7 +74,7 @@ void World::Update()
             }
             else if(event.Key.Code == sf::Key::F10)
             {
-                m_bLevelEditor = true;
+                m_bLevelEditor = !m_bLevelEditor;
                 m_levelEditor.Init();
             }
         }
