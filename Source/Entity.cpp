@@ -28,6 +28,11 @@ Entity::Entity()
     m_type = 0;
 }
 
+void Entity::SetType(int type)
+{
+    m_type = type;
+}
+
 bool Entity::SetSprite(const char *fileName)
 {
     sf::Image *image = gResourceMgr.GetImage(fileName);

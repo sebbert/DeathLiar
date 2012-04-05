@@ -40,10 +40,67 @@ void LevelEditor::Destroy()
 
 void LevelEditor::Save(const char *fileName)
 {
+    std::ofstream file(fileName, std::ios::binary);
+    file.write((char*)&m_currentEntity, sizeof(char));
+    for(int i = 0;i < m_currentEntity;i++)
+    {
+        int type = m_entities[i]->GetType();
+        file.write((char*)&type, sizeof(char));
+        if(type == ENTITY_WALL)
+        {
+            Wall *pWall = static_cast<Wall*>(m_entities[i]);
+            file.write((char*)&pWall->m_startPoint, sizeof(Vec2D));
+            file.write((char*)&pWall->m_endPoint, sizeof(Vec2D));
+        }
+        else
+        {
+            file.write((char*)&m_entities[i]->GetPosition(), sizeof(Vec2D));
+            Real rot = m_entities[i]->GetRotation();
+            file.write((char*)&rot, sizeof(Real));
+        }
+    }
+
+    file.close();
 }
 
 bool LevelEditor::Load(const char *fileName)
 {
+    std::ifstream file(fileName, std::ios::binary);
+
+    if(!file.is_open())
+    {
+        std::cout << "Failed to load file: " << fileName << std::endl;
+        return false;
+    }
+
+    file.read((char*)&m_currentEntity, sizeof(char));
+    for(int i = 0;i < m_currentEntity;i++)
+    {
+        char type;
+        file.read(&type, sizeof(char));
+
+        if(type == ENTITY_WALL)
+        {
+            Vec2D startPoint;
+            Vec2D endPoint;
+            file.read((char*)&startPoint, sizeof(Vec2D));
+            file.read((char*)&endPoint, sizeof(Vec2D));
+            m_entities[i] = new Wall(startPoint, endPoint);
+        }
+        else
+        {
+            Vec2D position;
+            Real rot;
+
+            file.read((char*)&position, sizeof(Vec2D));
+            file.read((char*)&rot, sizeof(Real));
+
+            m_entities[i]->GetSprite().SetRotation(rot);
+        }
+    }
+
+    file.close();
+
     return true;
 }
 
@@ -132,29 +189,38 @@ void LevelEditor::HandleEvents(sf::Event &event)
                 m_pCurrentEntity->GetSprite().Rotate(-45.0f);
             }
         }
-
-        if(event.Key.Code == sf::Key::Down)
+        else if(event.Key.Code == sf::Key::Down)
         {
             if(m_pCurrentEntity != 0)
             {
                 m_pCurrentEntity->GetSprite().Rotate(45.0f);
             }
         }
-
-        if(event.Key.Code == sf::Key::Right)
+        else if(event.Key.Code == sf::Key::Right)
         {
             if(m_pCurrentEntity != 0)
             {
                 m_pCurrentEntity->GetSprite().Rotate(-1.0f);
             }
         }
-
-        if(event.Key.Code == sf::Key::Left)
+        else if(event.Key.Code == sf::Key::Left)
         {
             if(m_pCurrentEntity != 0)
             {
                 m_pCurrentEntity->GetSprite().Rotate(1.0f);
             }
+        }
+        else if(event.Key.Code == sf::Key::S && event.Key.Control)
+        {
+            std::string path = gWorld.GetLevel().GetPathToLevel();
+            path += "/level.dat";
+            Save(path.c_str());
+        }
+        else if(event.Key.Code == sf::Key::O && event.Key.Control)
+        {
+            std::string path = gWorld.GetLevel().GetPathToLevel();
+            path += "/level.dat";
+            Load(path.c_str());
         }
     }
 }
@@ -211,8 +277,11 @@ Entity *LevelEditor::OverEntities(Vec2D &mousePos)
 {
     for(int i = 0;i < m_currentEntity;i++)
     {
-        if(PointIsInside(mousePos, m_entities[i]->GetSprite()))
-            return m_entities[i];
+        if(m_entities[i]->GetType() != ENTITY_WALL)
+        {
+            if(PointIsInside(mousePos, m_entities[i]->GetSprite()))
+                return m_entities[i];
+        }
     }
 
     return 0;

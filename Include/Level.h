@@ -28,11 +28,17 @@ public:
 
     int GetZoneFromPoint(const Vec2D &point);
 
+    const std::string &GetPathToLevel()
+    {
+        return m_path;
+    }
+
     int m_levelWidth;
     int m_levelHeight;
 private:
     sf::Sprite m_zones[9];///< Zones of the scrolling background. Each zone is 1024x1024 pixels wide.
     Vec2D m_zonePositions[9];///< Positions of the zones.
+    std::string m_path;///< Path to level folder.
 };
 
 #endif

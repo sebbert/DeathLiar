@@ -20,7 +20,7 @@
 #include "Vec2D.h"
 #include <SFML/Graphics.hpp>
 
-enum {ENTITY_PLAYER, ENTITY_WALL};
+enum {ENTITY_PLAYER = 1, ENTITY_WALL};
 
 /**
  * Entity is an object in the game world which can easily be rendered.
@@ -39,6 +39,12 @@ public:
      */
     void SetSprite(sf::Image &image);
     
+    /**
+     * Set type of entity.
+     * @param type The type of entity.
+     */
+    void SetType(int type);
+
     /**
      * Set sprite of entity, by a image file.
      * If image have been loaded before, it will be used.
@@ -71,14 +77,19 @@ public:
         return m_sprite;
     }
 
-    static Entity *GetEntity(sf::Uint16 id)
+    Real GetRotation() const
     {
-        return m_entities[id];
+        return m_sprite.GetRotation();
     }
 
     int GetType()
     {
         return m_type;
+    }
+
+    static Entity *GetEntity(sf::Uint16 id)
+    {
+        return m_entities[id];
     }
 
     static std::map<sf::Uint16, Entity*> m_entities;

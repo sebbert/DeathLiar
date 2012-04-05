@@ -53,10 +53,11 @@ public:
     }
 
     void GetCornerPoints(CornerPoints &points);
-private:
-    Vec2D m_normal;///< A normal which specifies where on the wall it is solid.
+
     Vec2D m_startPoint;
     Vec2D m_endPoint;
+private:
+    Vec2D m_normal;///< A normal which specifies where on the wall it is solid.
     sf::Shape m_rect;
 };
 
