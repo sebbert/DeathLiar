@@ -226,6 +226,12 @@ public:
     {
         return Vec2D(-x, -y);
     }
+
+    void Rotate(Real rad)
+    {
+        x = x * cos(rad) - y * sin(rad);
+        y = x * sin(rad) + y * cos(rad);
+    }
 };
 
 /**
@@ -303,34 +309,29 @@ inline bool PointIsInside(const Vec2D &point, const sf::Sprite &sprite)
     return false;
 }
 
-inline bool PointIsInsideOOB(const Vec2D &point, const Vec2D &topLeft, const Vec2D &bottomLeft, const Vec2D &topRight, const Vec2D &bottomRight)
+enum ContactSides
 {
-    Vec2D left = topLeft - bottomLeft;
-    Vec2D right = topRight - bottomRight;
-    Vec2D bottom = bottomRight - bottomLeft;
-    Vec2D top = topRight - topLeft;
+    LEFT = 1, RIGHT, TOP, BOTTOM
+};
 
-    Vec2D leftNormal = Normalize(left.Perp());
-    Vec2D rightNormal = Normalize(right.Perp());
-    Vec2D bottomNormal = Normalize(bottom.Perp());
-    Vec2D topNormal = Normalize(top.Perp());
-
-    Real leftD = left * leftNormal;
-    Real rightD = right * rightNormal;
-    Real bottomD = bottom * bottomNormal;
-    Real topD = top * topNormal;
-
-    Real pointLeftD = point * leftNormal;
-    Real pointRightD = point * rightNormal;
-    Real pointBottom = point * bottomNormal;
-    Real pointTop = point * topNormal;
-    
-    if(pointLeftD < leftD && pointRightD < rightD && pointBottom < bottomD && pointTop < pointTop)
+inline bool RectangleIntersectCircle(const Vec2D &boxPos, const Vec2D &size, const Vec2D &pos, Real radius)
+{
+    if(abs(pos.x - boxPos.x) < radius + size.x * (Real)0.5 && abs(pos.y - boxPos.y) < radius + size.y * (Real)0.5)
     {
         return true;
     }
 
     return false;
+}
+
+inline int TestVertexRegion(Real cx, Real cy, Real vx, Real vy, Real ex, Real ey, Real &ix, Real &iy)
+{
+
+}
+
+inline int TestEdgeRegion(Real cx, Real cy, Real vx, Real vy, Real ex, Real ey, Real &ix, Real &iy)
+{
+
 }
 /**
  * Returns a SFML vector of a vector.

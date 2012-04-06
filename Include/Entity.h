@@ -20,7 +20,7 @@
 #include "Vec2D.h"
 #include <SFML/Graphics.hpp>
 
-enum {ENTITY_PLAYER = 1, ENTITY_WALL};
+enum {ENTITY_PLAYER = 1, ENTITY_WALL, ENTITY_SPAWN_POINT};
 
 /**
  * Entity is an object in the game world which can easily be rendered.

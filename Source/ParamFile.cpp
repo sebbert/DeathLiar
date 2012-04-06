@@ -18,6 +18,8 @@ void ParamFile::Init()
 
     m_playerSpeed = GetParamAsReal();
     m_enemySpeed = GetParamAsReal();
+
+    m_file.close();
 }
 
 int ParamFile::GetParamAsInt()

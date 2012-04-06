@@ -85,4 +85,21 @@ private:
     Real m_mass;            ///< Mass of a enemy;
 };
 
+/**
+ * Spawn point for enemy.
+ */
+class EnemySpawnPoint : public Entity
+{
+public:
+    EnemySpawnPoint()
+    {
+        m_type = ENTITY_SPAWN_POINT;
+        m_circle = sf::Shape::Circle(0, 0, 30, sf::Color(0, 255, 20)); 
+    }
+
+    void Draw(Real duration);
+
+    sf::Shape m_circle;
+};
+
 #endif /* ENEMY_H */

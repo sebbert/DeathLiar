@@ -15,9 +15,18 @@ void LevelEditor::Init()
 
     // Maxium entities in the level.
     m_entities = new Entity*[m_maxNumberEntities];
+    
     m_wallIcon.SetImage(*gResourceMgr.GetImage("Media/LevelEditor/wallIcon.png"));
-    m_wallIcon.SetPosition((Real)gWorld.GetParams().m_windowWidth - 32, 32); 
-    m_wallIcon.SetCenter(64 * (Real)0.5, 64 * (Real)0.5);
+    m_wallIcon.SetCenter(32, 32);
+    m_wallIcon.SetPosition(gWorld.GetParams().m_windowWidth - (Real)32, (Real)32); 
+
+    m_enemyIcon.SetImage(*gResourceMgr.GetImage("Media/LevelEditor/zombieIcon.png"));
+    m_enemyIcon.SetCenter(32, 32);
+    m_enemyIcon.SetPosition(gWorld.GetParams().m_windowWidth - (Real)32, (Real)96); 
+
+    /*std::string path = gWorld.GetLevel().GetPathToLevel();
+    path += "/level.dat";
+    Load(path.c_str());*/
 
     for(int i = 0;i < m_maxNumberEntities;i++)
     {
@@ -27,15 +36,18 @@ void LevelEditor::Init()
 
 void LevelEditor::Destroy()
 {
-    for(int i = 0;i < m_maxNumberEntities;i++)
+    if(m_entities != 0)
     {
-        if(m_entities[i] == 0)
+        for(int i = 0;i < m_maxNumberEntities;i++)
         {
-            delete m_entities[i];
+            if(m_entities[i] == 0)
+            {
+                delete m_entities[i];
+            }
         }
+        delete []m_entities;
+        m_entities = 0;
     }
-    delete []m_entities;
-    m_entities = 0;
 }
 
 void LevelEditor::Save(const char *fileName)
@@ -112,8 +124,10 @@ void LevelEditor::HandleEvents(sf::Event &event)
         {
             Vec2D mousePos((Real)event.MouseButton.X, (Real)event.MouseButton.Y);
 
+            bool setTool = SetEntity(mousePos);
+
             //Drawing of walls are handled different from other entities.
-            if(m_currentTool == WALL)
+            if(m_currentTool == WALL && !setTool)
             {/*
                 for(int i = 0;i < m_currentEntity;i++)
                 {
@@ -151,9 +165,23 @@ void LevelEditor::HandleEvents(sf::Event &event)
                 {
                     m_pCurrentEntity = pressedEntity;
                 }
-                else if(!SetEntity(mousePos))
+                else if(!setTool)
                 {
                     AddEntity(mousePos);
+                }
+            }
+        }
+        else if(event.MouseButton.Button == sf::Mouse::Right)
+        {
+            if(m_currentTool == WALL)
+            {
+                m_currentTool = SELECT;
+                if(m_pEntity != 0 && m_pEntity->GetType() == ENTITY_WALL)
+                {
+                    delete m_pEntity;
+                    --m_currentEntity;
+                    m_pEntity = 0;
+                    m_startPoint.Set(-1, -1);
                 }
             }
         }
@@ -228,6 +256,7 @@ void LevelEditor::HandleEvents(sf::Event &event)
 void LevelEditor::Draw()
 {
     gWorld.GetWindow()->Draw(m_wallIcon);
+    gWorld.GetWindow()->Draw(m_enemyIcon);
 
     for(int i = 0;i < m_currentEntity;i++)
     {
@@ -244,6 +273,12 @@ bool LevelEditor::SetEntity(Vec2D &mousePos)
         return true;
     }
 
+    if(PointIsInside(mousePos, m_enemyIcon))
+    {
+        m_currentTool = ENEMY_SPAWN_POINT;
+        return true;
+    }
+
     return false;
 }
 
@@ -255,8 +290,12 @@ void LevelEditor::AddEntity(Vec2D &mousePos)
     case WALL:
         m_pEntity = new Wall(m_startPoint, m_startPoint); 
         break;
+    case ENEMY_SPAWN_POINT:
+        m_pEntity = new EnemySpawnPoint();
+        break;
     default:
         std::cout << "You have not yet picked a tool.\n";
+        break;
     }
 
     if(m_pEntity != 0)
@@ -277,7 +316,7 @@ Entity *LevelEditor::OverEntities(Vec2D &mousePos)
 {
     for(int i = 0;i < m_currentEntity;i++)
     {
-        if(m_entities[i]->GetType() != ENTITY_WALL)
+        if(m_entities[i]->GetType() != ENTITY_WALL && m_entities[i]->GetType() != ENTITY_SPAWN_POINT)
         {
             if(PointIsInside(mousePos, m_entities[i]->GetSprite()))
                 return m_entities[i];

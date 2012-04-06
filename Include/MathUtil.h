@@ -71,4 +71,9 @@ inline Real Min(Real x, Real y)
     return x < y ? x : y;
 }
 
+inline Real Clamp(Real x, Real a, Real b)
+{
+    return x < a ? a : (x > b ? b : x);
+}
+
 #endif
