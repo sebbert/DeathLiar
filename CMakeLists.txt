@@ -52,7 +52,7 @@ set(SRCS
 	${SRC_PATH}/Player.cpp
 	${SRC_PATH}/Weapon.cpp
 	${SRC_PATH}/Axe.cpp
-	${INC_PATH}/LevelEditor.cpp)
+	${SRC_PATH}/LevelEditor.cpp)
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin/")
 
