@@ -18,6 +18,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Include)
 set(LIBS ${LIBS} ${SFML_LIBRARIES})
 
 set(HDRS
+	${INC_PATH}/PathFinding.h
 	${INC_PATH}/LevelEditor.h
 	${INC_PATH}/Wall.h
 	${INC_PATH}/Pistol.h
@@ -37,6 +38,7 @@ set(HDRS
 	${INC_PATH}/LevelEditor.h)
 
 set(SRCS 
+	${SRC_PATH}/PathFinding.h
 	${SRC_PATH}/LevelEditor.cpp
 	${SRC_PATH}/Wall.cpp
 	${SRC_PATH}/Pistol.cpp
