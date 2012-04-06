@@ -64,6 +64,16 @@ public:
     virtual void Draw(Real duration);
 
     /**
+     * Checks for collision between a circular entity and a Vec2D.
+     * @return True if there's a collision.
+     */
+    bool CollidesWith(Vec2D& vec)
+    {
+        Vec2D diff = m_position - vec;
+        return diff.MagnitudeSquared() <= m_halfWidth * m_halfWidth;
+    }
+
+    /**
      * Returns the position of the entity.
      * @return the position of the entity.
      */

@@ -85,6 +85,10 @@ public:
     int m_WeaponHealth; ///< The weapon's health, e.g. how many bullets are in a gun. Ranges from 0 to m_MaxHealth.
     int m_MaxHealth;    ///< The maximum health of the weapon.
     int m_WeaponDamage; ///< How much damage the weapon takes each hit.
+    bool m_isHitting;   ///< Wether the weapon is currently hitting or not.
+
+protected:
+    Vec2D m_hitOffset;
 };
 
 /**

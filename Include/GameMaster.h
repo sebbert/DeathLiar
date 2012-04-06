@@ -54,6 +54,16 @@ public:
     {
         return m_wave;
     }
+
+    Enemy* GetEnemies()
+    {
+        return m_enemies;
+    }
+
+    short GetNumEnemies()
+    {
+        return m_numEnemies;
+    }
 private:
     GameMaster() {}
     GameMaster(const GameMaster &) {}

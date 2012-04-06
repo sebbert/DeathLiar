@@ -53,6 +53,10 @@ public:
 	 */
 	void Update(Real duration);
 
+    /**
+     * Sets the mass of the enemy.
+     * @param mass The mass.
+     */
     void SetMass(Real mass);
 
 	/**
@@ -60,7 +64,11 @@ public:
 	 * @param speed The speed.
 	 */
 	void SetSpeed(Real speed);
-        
+    
+    /**
+     * Gets the speed of the enemy.
+     * @return the speed of the enemy.
+     */
     Real GetSpeed()
     {
         return m_Speed;
