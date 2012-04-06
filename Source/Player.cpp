@@ -24,6 +24,7 @@
 Player::Player()
 {
     m_currentWeapon = 0;
+    m_type = ENTITY_PLAYER;
 }
 
 void Player::Init()

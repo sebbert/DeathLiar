@@ -3,7 +3,7 @@
 
 Pistol::Pistol()
 {
-    m_secBetweenShots = 0.5f;
+    m_secBetweenShots = 0.25f;
     m_clock.Reset();
 }
 

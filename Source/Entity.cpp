@@ -25,6 +25,12 @@ Entity::Entity()
 {
     m_id = GetNextID();
     AddEntity(m_id, this);
+    m_type = 0;
+}
+
+void Entity::SetType(int type)
+{
+    m_type = type;
 }
 
 bool Entity::SetSprite(const char *fileName)

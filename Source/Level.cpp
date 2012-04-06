@@ -26,6 +26,7 @@ void Level::Init(const char *levelName)
 
     fileName = "Media/Levels/";
     fileName += levelName;
+    m_path = fileName;
     fileName += "/";
     fileName += levelName;
 

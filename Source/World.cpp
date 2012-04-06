@@ -74,8 +74,16 @@ void World::Update()
             }
             else if(event.Key.Code == sf::Key::F10)
             {
-                m_bLevelEditor = true;
-                m_levelEditor.Init();
+                if(m_bLevelEditor == false)
+                {
+                    m_bLevelEditor = true;
+                    m_levelEditor.Init();
+                }
+                else
+                {
+                    m_bLevelEditor = false;
+                    m_levelEditor.Destroy();
+                }
             }
         }
     }
@@ -85,9 +93,9 @@ void World::Update()
         m_window.Clear(sf::Color(255, 255, 255));    
     
         m_level.Draw();
+        m_player.Draw(GetFrameTime());
         if(!m_bLevelEditor)
         {
-            m_player.Draw(GetFrameTime());
             gGameMaster.Update(GetFrameTime());
 
             gBulletMgr.Update(GetFrameTime());
