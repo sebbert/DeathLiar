@@ -15,18 +15,39 @@
 */
 
 #include "Axe.h"
+#include "MathUtil.h"
+#include "GameMaster.h"
 
-void Axe::Hit()
+void Axe::Fire()
 {
-
+    m_isHitting = true;
 }
 
-void Axe::StopHitting()
+void Axe::StopFire()
 {
-    
+    m_isHitting = false;
+    m_sprite.SetRotation(0);
+    m_hitRotation = 0;
 }
 
 void Axe::Update(Real duration)
 {
+    if(m_isHitting)
+    {
+        short numEnemies = gGameMaster.GetNumEnemies();
+        Enemy* enemies = gGameMaster.GetEnemies();
 
+        for(short i = 0; i < numEnemies; i++)
+        {
+            if(enemies[i].m_health > 0 && enemies[i].CollidesWith(m_hitOffset));
+            {
+                --enemies[i].m_health;
+            }
+        }
+
+        m_sprite.SetRotation(m_hitRotation);
+        m_hitRotation += 0.5 * (m_hitDir ? 1 : -1);
+
+        if((m_hitRotation > 45) || (m_hitRotation < -45)) m_hitDir = !m_hitDir;
+    }
 }

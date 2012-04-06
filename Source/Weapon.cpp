@@ -78,7 +78,7 @@ void BulletManager::Update(Real duration)
 
         iter->Draw(duration);
 
-        //Remove bullet if destroyed, or went out of level.
+        //Remove bullet if destroyed or went out of level.
         if(iter->m_WeaponDamage < 0 || !gWorld.IsInLevel(iter->GetPosition()))
         {
             iter->m_MaxHealth = 0;

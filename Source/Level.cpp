@@ -39,6 +39,8 @@ void Level::Init(const char *levelName)
             char idInChar[6] = {'1', '\0', 'p', 'n', 'g', '\0'};
 #ifdef WIN32
             _itoa_s(i * 3 + j, idInChar, 10);
+#elif defined(__APPLE__)
+            sprintf(idInChar, "%i", i * 3 + j);
 #else
             itoa(i * 3 + j, idInChar, 10);
 #endif
