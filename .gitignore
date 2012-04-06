@@ -5,3 +5,5 @@ Deathliar
 Makefile
 CMakeFiles
 *.sublime-*
+Bin/CMakeScripts
+Bin/Deathliar.xcodeproj
