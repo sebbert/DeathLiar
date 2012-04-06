@@ -41,6 +41,10 @@ public:
 
     int GetCellFromPoint(const Vec2D &point);
 
+    void RemoveEntityFromCell(int cell);
+
+    Entity *GetEntityFromCell(int cell);
+
     Vec2D GetCenterOfCell(int cell);
 
     Vec2D SnapToCenter(const Vec2D &point);

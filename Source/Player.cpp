@@ -81,13 +81,14 @@ void Player::HandleEvents(sf::Event &event)
     if(event.Type == sf::Event::MouseMoved)
     {
         Vec2D mousePos((Real)event.MouseMove.X, (Real)event.MouseMove.Y);
-        PrintVec2D("Mouse position", mousePos);
 
-        Vec2D playerPos(m_position.x + gWorld.m_camera.m_position.x + m_halfWidth, m_position.y + gWorld.m_camera.m_position.y  + m_halfHeight);
+        Vec2D playerPos(m_position.x + gWorld.m_camera.m_position.x + m_halfWidth, m_position.y + gWorld.m_camera.m_position.y + m_halfHeight);
  
         float angle = (float)RadToDeg(AngleBetweenPoints(playerPos, mousePos)) + (Real)90.0;
 
         m_sprite.SetRotation(angle);
+        m_pistol.GetSprite().SetRotation(angle);
+        m_pistol.angle = angle;
 
         m_heading = playerPos - mousePos;
         m_heading.Normalize();
@@ -133,12 +134,14 @@ void Player::Update(Real duration)
     }
 
     m_pistol.GetPosition() = m_position;
+    m_pistol.Draw(duration);
 
     gGameMaster.ResolveCollision(this);
     if(m_health <= 0)
     {
-        //std::cout << "Your are dead, sorry. I bet you have better luck next time!\n" << std::endl;
-        //gGameMaster.Init();
+        std::cout << "Your are dead, sorry. I bet you have better luck next time!\n" << std::endl;
+        gWorld.StopGame();
+        gWorld.InitNewGame();
     }
 }
 

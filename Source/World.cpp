@@ -27,8 +27,14 @@ void World::Init()
 
     m_halfWin.x = m_params.m_windowWidth * (Real)0.5;
     m_halfWin.y = m_params.m_windowHeight * (Real)0.5;
+
     m_bGameOn = true;
 
+    InitNewGame();
+}
+
+void World::InitNewGame()
+{
     m_level.Init("Graveyard");
     gBulletMgr.Init();
 
@@ -37,6 +43,12 @@ void World::Init()
     m_player.SetHealth(200);
 
     gGameMaster.Init();
+}
+
+void World::StopGame()
+{
+    m_level.Destroy();
+    gGameMaster.Destroy();
 }
 
 void World::Update()

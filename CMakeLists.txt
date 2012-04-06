@@ -38,7 +38,7 @@ set(HDRS
 	${INC_PATH}/LevelEditor.h)
 
 set(SRCS 
-	${SRC_PATH}/PathFinding.h
+	${SRC_PATH}/PathFinding.cpp
 	${SRC_PATH}/LevelEditor.cpp
 	${SRC_PATH}/Wall.cpp
 	${SRC_PATH}/Pistol.cpp

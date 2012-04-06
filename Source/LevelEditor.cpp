@@ -45,6 +45,14 @@ void LevelEditor::HandleEvents(sf::Event &event)
                 }
             }
         }
+        else if(event.MouseButton.Button == sf::Mouse::Right)
+        {
+            Vec2D mousePos((Real)event.MouseButton.X, (Real)event.MouseButton.Y);
+            mousePos += gWorld.m_camera.m_position.Opposite();
+
+            int cell = gWorld.GetLevel().GetCellFromPoint(mousePos);
+            gWorld.GetLevel().RemoveEntityFromCell(cell);
+        }
     }
 }
 

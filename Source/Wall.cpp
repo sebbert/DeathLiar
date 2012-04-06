@@ -4,5 +4,9 @@
 
 Wall::Wall()
 {
-    SetSprite("Media/Levels/wall.png");
+    std::string path = gWorld.GetLevel().GetPathToLevel();
+    path += "/wall_tile.png";
+    sf::Image &img = *gResourceMgr.GetImage(path.c_str());
+    img.SetSmooth(false);
+    SetSprite(img);
 }

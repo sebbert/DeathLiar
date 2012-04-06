@@ -227,10 +227,9 @@ public:
         return Vec2D(-x, -y);
     }
 
-    void Rotate(Real rad)
+    Vec2D Rotate(Real rad)
     {
-        x = x * cos(rad) - y * sin(rad);
-        y = x * sin(rad) + y * cos(rad);
+        return Vec2D(x * cos(rad) - y * sin(rad), x * sin(rad) + y * cos(rad));
     }
 };
 

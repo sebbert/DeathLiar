@@ -20,12 +20,14 @@ void GameMaster::Destroy()
         delete []m_enemies;
         m_enemies = 0;
     }
+
+    m_wave = 0;
 }
 
 void GameMaster::NewWave()
 {
     ++m_wave;
-    m_numEnemies = 1;
+    m_numEnemies = m_wave * 5;
     for(int i = 0;i < m_numEnemies;i++)
     {
         Vec2D pos((Real)sf::Randomizer::Random(0, gWorld.GetLevel().m_levelWidth), (Real)sf::Randomizer::Random(0, gWorld.GetLevel().m_levelHeight));
@@ -66,7 +68,7 @@ void GameMaster::ResolveCollision(CreatureEntity *entity)
                 (m_enemies[i].GetPosition() + (m_enemies[i].m_velocity * gWorld.GetFrameTime()));
             if(between.MagnitudeSquared() < m_enemies[i].m_halfWidth * m_enemies[i].m_halfWidth + entity->m_halfWidth * entity->m_halfWidth)
             {
-                entity->m_health -= 1;
+                entity->m_health -= 10;
                 m_enemies[i].GetPosition() -= m_enemies[i].m_velocity * gWorld.GetFrameTime();
             }
         }

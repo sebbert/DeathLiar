@@ -34,6 +34,9 @@ public:
 
     void Init();
 
+    void InitNewGame();
+    void StopGame();
+
     void Update();
 
     static World &Instance()

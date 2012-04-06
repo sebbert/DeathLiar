@@ -216,13 +216,13 @@ bool Level::LoadLevelInfo()
     std::ifstream file(m_path + "/level.dat", std::ios::binary);
     if(!file.is_open())
     {
-        std::cout << "Could not find level.dat. A team of highly trained monkeys has been dispatched to deal with this situation. If you see them give them this fucking code: ";
+        /*std::cout << "Could not find level.dat. A team of highly trained monkeys has been dispatched to deal with this situation. If you see them give them this fucking code: ";
         for(int i = 0;i < 100;i++)
         {
             std::cout << sf::Randomizer::Random(48, 90);
         }
 
-        std::cout << std::endl;
+        std::cout << std::endl;*/
 
         return false;
     }
@@ -291,6 +291,26 @@ void Level::SaveLevelInfo()
     file.close();
 }
 
+Entity *Level::GetEntityFromCell(int cell)
+{
+    EntityIter found = m_entities.find(cell);
+    if(found != m_entities.end())
+    {
+        return found->second;
+    }
+
+    return 0;
+}
+
+void Level::RemoveEntityFromCell(int cell)
+{
+    EntityIter found = m_entities.find(cell);
+    if(found != m_entities.end())
+    {
+        m_entities.erase(found);
+    }
+}
+
 Vec2D Level::GetCenterOfCell(int cell)
 {
     //return (unsigned)(square.x) + m_gridExtentX*(unsigned)(square.y);
@@ -304,5 +324,5 @@ Vec2D Level::SnapToCenter(const Vec2D &point)
     square.x = point.x / m_gridSize.x;
     square.y = point.y / m_gridSize.y;
 
-    return Vec2D((unsigned)square.x * m_gridSize.x + (m_gridSize.x * 0.5), (unsigned)square.y * m_gridSize.y + (m_gridSize.y * 0.5));
+    return Vec2D((unsigned)square.x * m_gridSize.x, (unsigned)square.y * m_gridSize.y);
 }
