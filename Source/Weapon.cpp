@@ -41,6 +41,13 @@ Bullet::Bullet()
     m_oneOverMass = 0;
 }
 
+Bullet::Bullet(Real mass, int damage, int maxHealth, int weaponDamage, Vec2D &startPos, Vec2D &force) : 
+Weapon(damage, maxHealth, weaponDamage), m_mass(mass), m_oneOverMass((Real)1.0 / mass)
+{
+    m_position = startPos;
+    m_velocity = force * m_oneOverMass;
+}
+
 void BulletManager::Init()
 {
     //Reserve space for 50 bullets. No more than that.

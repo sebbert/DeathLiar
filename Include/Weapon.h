@@ -98,13 +98,7 @@ class Bullet : public Weapon
 {
 public:
     Bullet();
-    Bullet(Real mass, int damage, int maxHealth, int weaponDamage, Vec2D &startPos, Vec2D &force) : 
-    Weapon(damage, maxHealth, weaponDamage), m_mass(mass), m_oneOverMass((Real)1.0 / mass)
-    {
-       m_position = startPos;
-       m_velocity = force * m_oneOverMass;
-    }
-
+    Bullet(Real mass, int damage, int maxHealth, int weaponDamage, Vec2D &startPos, Vec2D &force);
     void Update(Real duration);
 
     Real m_mass;
@@ -122,7 +116,6 @@ public:
 
     /**
      * Fire a bullet.
-     * @aram bullet Bullet which should be fired.
      */
     void FireBullet(const char *image, Real mass, int damage, int maxHealth, int weaponDamage, Vec2D &startPos, Vec2D &force);
 
