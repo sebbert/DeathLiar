@@ -66,7 +66,7 @@ void World::Update()
                 //Pause game...
                 m_bPaused = !m_bPaused;
             }
-            else if(event.Key.Code == sf::Key::O)
+            else if(event.Key.Code == sf::Key::O && !event.Key.Control)
             {
                 //Single frame
                 m_bSingleFrame = true;
@@ -83,6 +83,7 @@ void World::Update()
                 {
                     m_bLevelEditor = false;
                     m_levelEditor.Destroy();
+                    Init();
                 }
             }
         }
@@ -127,6 +128,7 @@ bool World::IsInLevel(const Vec2D &point)
 
 World::~World()
 {
+    m_level.Destroy();
     gGameMaster.Destroy();
     m_levelEditor.Destroy();
 }

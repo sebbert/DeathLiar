@@ -64,7 +64,7 @@ private:
      */
     void AddEntity(Vec2D &mousePos);
 
-    enum Tools{WALL};
+    enum Tools{SELECT, WALL, ENEMY_SPAWN_POINT};
 
     Vec2D m_startPoint;///< Start point of wall.
 
@@ -73,7 +73,7 @@ private:
     int m_currentTool;
 
     sf::Sprite m_wallIcon;///< Icon for wall.
-    sf::Sprite m_weaponIcon;///< Icon for weapon.
+    sf::Sprite m_enemyIcon;///< Icon for weapon.
 
     Entity *m_pCurrentEntity;
     Entity *m_pEntity;///< Pointer to entity.

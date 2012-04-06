@@ -16,7 +16,7 @@ void GameMaster::Destroy()
 void GameMaster::NewWave()
 {
     ++m_wave;
-    m_numEnemies = 70;
+    m_numEnemies = 1;
     for(int i = 0;i < m_numEnemies;i++)
     {
         Vec2D pos((Real)sf::Randomizer::Random(0, gWorld.GetLevel().m_levelWidth), (Real)sf::Randomizer::Random(0, gWorld.GetLevel().m_levelHeight));

@@ -32,6 +32,7 @@ void Player::Init()
     m_speed = gWorld.GetParams().m_playerSpeed;
     m_position = gWorld.GetWindowCenter();
     m_currentWeapon = &m_pistol;
+    m_halfWidth -= 10;
 }
 
 void Player::HandleEvents(sf::Event &event)
@@ -46,7 +47,7 @@ void Player::HandleEvents(sf::Event &event)
         {
             m_velocity.x = m_speed;
         }
-        else if(event.Key.Code == sf::Key::S)
+        else if(event.Key.Code == sf::Key::S && !event.Key.Control)
         {
             m_velocity.y = m_speed;
         }
@@ -80,6 +81,8 @@ void Player::HandleEvents(sf::Event &event)
     if(event.Type == sf::Event::MouseMoved)
     {
         Vec2D mousePos((Real)event.MouseMove.X, (Real)event.MouseMove.Y);
+        PrintVec2D("Mouse position", mousePos);
+
         Vec2D playerPos(m_position.x + gWorld.m_camera.m_position.x + m_halfWidth, m_position.y + gWorld.m_camera.m_position.y  + m_halfHeight);
  
         float angle = (float)RadToDeg(AngleBetweenPoints(playerPos, mousePos)) + (Real)90.0;
@@ -96,7 +99,18 @@ void Player::HandleEvents(sf::Event &event)
 void Player::Update(Real duration)
 {
     //m_velocity.Truncate(m_speed);
-    m_position += m_velocity * duration;
+    Vec2D frameVel = m_velocity * duration;
+    m_position.x += frameVel.x;
+
+    if(gWorld.GetLevel().CollisionWithWalls(this))
+    {
+        m_position.x -= frameVel.x;
+    }
+    m_position.y += frameVel.y;
+    if(gWorld.GetLevel().CollisionWithWalls(this))
+    {
+        m_position.y -= frameVel.y;
+    }
 
     gWorld.m_camera.FollowMe(this, true);
 
@@ -123,7 +137,7 @@ void Player::Update(Real duration)
     gGameMaster.ResolveCollision(this);
     if(m_health <= 0)
     {
-        std::cout << "Your are dead, sorry. I bet you have better luck next time!\n" << std::endl;
+        //std::cout << "Your are dead, sorry. I bet you have better luck next time!\n" << std::endl;
         //gGameMaster.Init();
     }
 }

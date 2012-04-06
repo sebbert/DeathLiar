@@ -17,6 +17,7 @@
 #include "Level.h"
 #include "World.h"
 #include "ResourceMgr.h"
+#include "Wall.h"
 
 void Level::Init(const char *levelName)
 {
@@ -60,6 +61,59 @@ void Level::Init(const char *levelName)
             m_zones[i * 3 + j].SetImage(image);
             m_zonePositions[i * 3 + j].Set(j * (Real)gWorld.GetParams().m_zoneWidth, i * (Real)gWorld.GetParams().m_zoneHeight);
         }
+    }
+
+    std::ifstream file(m_path + "/level.dat", std::ios::binary);
+    if(!file.is_open())
+    {
+        std::cout << "Could not find level.dat. A team of highly trained monkeys has been dispatched to deal with this situation. If you see them give them this fucking code: ";
+        for(int i = 0;i < 100;i++)
+        {
+            std::cout << sf::Randomizer::Random(48, 90);
+        }
+
+        return;
+    }
+
+    file.read((char*)&m_numEntities, sizeof(char));
+    m_entities = new Entity*[m_numEntities];
+    
+    for(int i = 0;i < m_numEntities;i++)
+    {
+        char type;
+        file.read(&type, sizeof(char));
+        if(type == ENTITY_WALL)
+        {
+            Vec2D startPoint, endPoint;
+            file.read((char*)&startPoint, sizeof(Vec2D));
+            file.read((char*)&endPoint, sizeof(Vec2D));
+            m_entities[i] = new Wall(startPoint, endPoint);
+        }
+        else
+        {
+            Vec2D pos;
+            Real rot;
+            file.read((char*)&pos, sizeof(Vec2D));
+            file.read((char*)&rot, sizeof(Real));
+        }
+    }
+
+    file.close();
+}
+
+void Level::Destroy()
+{
+    if(m_entities != 0)
+    {
+        for(int i = 0;i < m_numEntities;i++)
+        {
+            if(m_entities[i] == 0)
+            {
+                delete m_entities[i];
+            }
+        }
+        delete []m_entities;
+        m_entities = 0;
     }
 }
 
@@ -114,6 +168,52 @@ void Level::Draw()
             gWindow->Draw(m_zones[zones[i]]);
         }
     }
+    
+    if(!gWorld.IsInLevelEditor())
+    {
+        for(int i = 0;i < m_numEntities;i++)
+        {
+            m_entities[i]->Draw(gWorld.GetFrameTime());
+        }
+    }
+}
+
+bool Level::CollisionWithWalls(Entity *entity)
+{
+    for(int i = 0;i < m_numEntities;i++)
+    {
+        Wall *pWall = static_cast<Wall*>(m_entities[i]);
+        //Vec2D between = pWall->m_endPoint - pWall->m_startPoint;
+        Vec2D size = pWall->m_endPoint - pWall->m_startPoint;
+        Vec2D pos = pWall->m_startPoint + (size * 0.5);
+       
+        if(GetZoneFromPoint(pos + size) == GetZoneFromPoint(entity->GetPosition()))
+        {     
+           /* Vec2D toWall = pos - entity->GetPosition();
+            Real dist = toWall.Magnitude();*/
+        
+            /*
+            between.Normalize();
+
+            Real rad = AngleBetweenPoints(between, Vec2D(0,0)); //+ HALF_PI;
+        
+            Vec2D newPos = toWall;
+            newPos.Rotate((PI - rad) * 0.5);
+            //size.Rotate(rad);
+
+            newPos.Normalize();
+            Real distCircle = sin(rad) * dist;
+            newPos *= distCircle;
+            newPos += entity->GetPosition();*/
+
+            if(RectangleIntersectCircle(pos, size, entity->GetPosition(), entity->m_halfWidth))
+            {
+                return true;
+            }
+        }
+    }
+    
+    return false;
 }
 
 int Level::GetZoneFromPoint(const Vec2D &point)

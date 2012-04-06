@@ -83,6 +83,11 @@ public:
         return m_halfWin;
     }
 
+    bool IsInLevelEditor()
+    {
+        return m_bLevelEditor;
+    }
+
     /**
      * Checks if point is inside the boundary of the level.
      * @return True if inside, and false if not.

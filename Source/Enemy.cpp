@@ -56,6 +56,10 @@ void Enemy::Update(Real duration)
     }
 
     gBulletMgr.ResolveCollisions(this);
+    if(gWorld.GetLevel().CollisionWithWalls(this))
+    {
+        //std::cout << "Collision occured.";
+    }
 }
 
 Vec2D Enemy::Arrive()
@@ -102,4 +106,11 @@ void Enemy::FindNeighbours(int numEnemies, Enemy *enemies)
             Vec2D toNeighbour = 
         }
     }*/
+}
+
+void EnemySpawnPoint::Draw(Real duration)
+{
+    //Bruteforce casting :)
+    m_circle.SetPosition(*(sf::Vector2f*)&m_position);
+    gWorld.GetWindow()->Draw(m_circle);
 }
