@@ -1,6 +1,11 @@
 #include "GameMaster.h"
 #include "World.h"
 
+GameMaster::~GameMaster()
+{
+    Destroy();
+}
+
 void GameMaster::Init()
 {
     //Maxium number of enemies on the map at any time.
@@ -10,7 +15,11 @@ void GameMaster::Init()
 
 void GameMaster::Destroy()
 {
-    delete []m_enemies;
+    if(m_enemies)
+    {
+        delete []m_enemies;
+        m_enemies = 0;
+    }
 }
 
 void GameMaster::NewWave()

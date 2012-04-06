@@ -25,6 +25,8 @@
 class GameMaster
 {
 public:
+    ~GameMaster();
+
     /**
      * Initialize game master.
      */
@@ -65,7 +67,7 @@ public:
         return m_numEnemies;
     }
 private:
-    GameMaster() {}
+    GameMaster() : m_enemies(0) {}
     GameMaster(const GameMaster &) {}
     GameMaster operator=(const GameMaster &) {}
 

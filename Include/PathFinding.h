@@ -13,22 +13,27 @@
 * Copyright © 2012 Emil Sandstø, Sebastian Reinhard
 * 
 */
-#ifndef WALL_H_
-#define WALL_H_
+#ifndef PATH_FINDING_H_
+#define PATH_FINDING_H_
 
-#include "Entity.h"
-
-/**
- * Wall is a solid entity which are used to make safe spot for the player.
- * A wall has a normal which makes the wall solid on one side and not on the other side.
- */
-class Wall : public Entity
+class Path
 {
 public:
-    /**
-     * Constructor
-     */
-    Wall();
+
+private:
+};
+
+class Graph
+{
+};
+
+/**
+ * Pathfinder generates a list of paths for the                                      
+ */
+class PathFinder
+{
+public:
+private:
 };
 
 #endif

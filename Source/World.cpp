@@ -82,7 +82,6 @@ void World::Update()
                 else
                 {
                     m_bLevelEditor = false;
-                    m_levelEditor.Destroy();
                     Init();
                 }
             }
@@ -130,5 +129,4 @@ World::~World()
 {
     m_level.Destroy();
     gGameMaster.Destroy();
-    m_levelEditor.Destroy();
 }

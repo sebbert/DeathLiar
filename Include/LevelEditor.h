@@ -27,20 +27,6 @@ class LevelEditor
 public:
     void Init();
 
-    void Destroy();
-
-    /** 
-     * Save a level.
-     * @param fileName Name of level to save.
-     */
-    void Save(const char *fileName);
-
-    /** 
-     * Load a level.
-     * @param fileName Name of level to load.
-     */
-    bool Load(const char *fileName);
-
     /** 
      * Handle events, mainly mouse.
      * @param event Event handler.
@@ -55,29 +41,21 @@ private:
     /**
      * Set entity to be added to level, if mouse pressed occured inside the level editor side bar.
      */
-    bool SetEntity(Vec2D &mousePos);
+    bool SetTool(Vec2D &mousePos);
 
     Entity *OverEntities(Vec2D &mousePos);
 
     /**
-     * Create a entity on the map. Entities can be weapons, walls or other in game elements.
+     * Creates a entity on the map. Entities can be weapons, walls or other in game elements.
      */
     void AddEntity(Vec2D &mousePos);
 
-    enum Tools{SELECT, WALL, ENEMY_SPAWN_POINT};
+    enum Tools{SELECT, WALL, ENEMY_SPAWN_POINT};///< Types of tools
+    unsigned m_currentTool;///< The current tool.
 
-    Vec2D m_startPoint;///< Start point of wall.
-
-    int m_maxNumberEntities;
-    int m_currentEntity;///< Current entity to be added to level if mouse left is pressed.
-    int m_currentTool;
-
-    sf::Sprite m_wallIcon;///< Icon for wall.
-    sf::Sprite m_enemyIcon;///< Icon for weapon.
-
-    Entity *m_pCurrentEntity;
-    Entity *m_pEntity;///< Pointer to entity.
-    Entity **m_entities;///< A fixed size dynamic array of entities.
+    sf::Sprite m_selectIcon;
+    sf::Sprite m_wallIcon;
+    sf::Sprite m_spawnIcon;
 };
 
 #endif

@@ -19,6 +19,11 @@
 #include "ResourceMgr.h"
 #include "Wall.h"
 
+Level::~Level()
+{
+    Destroy();
+}
+
 void Level::Init(const char *levelName)
 {
     std::string fileName;
@@ -33,6 +38,11 @@ void Level::Init(const char *levelName)
 
     m_levelWidth = gWorld.GetParams().m_zoneWidth * 3;
     m_levelHeight = gWorld.GetParams().m_zoneHeight * 3;
+
+    m_gridSize.x = 64;
+    m_gridSize.y = 64;
+    m_gridExtentX = (unsigned)m_levelWidth / (unsigned)m_gridSize.x;
+    m_gridExtentY = (unsigned)m_levelHeight / (unsigned)m_gridSize.y;
 
     for(int i = 0;i < 3;i++)
     {
@@ -63,57 +73,18 @@ void Level::Init(const char *levelName)
         }
     }
 
-    std::ifstream file(m_path + "/level.dat", std::ios::binary);
-    if(!file.is_open())
-    {
-        std::cout << "Could not find level.dat. A team of highly trained monkeys has been dispatched to deal with this situation. If you see them give them this fucking code: ";
-        for(int i = 0;i < 100;i++)
-        {
-            std::cout << sf::Randomizer::Random(48, 90);
-        }
-
-        return;
-    }
-
-    file.read((char*)&m_numEntities, sizeof(char));
-    m_entities = new Entity*[m_numEntities];
-    
-    for(int i = 0;i < m_numEntities;i++)
-    {
-        char type;
-        file.read(&type, sizeof(char));
-        if(type == ENTITY_WALL)
-        {
-            Vec2D startPoint, endPoint;
-            file.read((char*)&startPoint, sizeof(Vec2D));
-            file.read((char*)&endPoint, sizeof(Vec2D));
-            m_entities[i] = new Wall(startPoint, endPoint);
-        }
-        else
-        {
-            Vec2D pos;
-            Real rot;
-            file.read((char*)&pos, sizeof(Vec2D));
-            file.read((char*)&rot, sizeof(Real));
-        }
-    }
-
-    file.close();
+    LoadLevelInfo();
 }
 
 void Level::Destroy()
 {
-    if(m_entities != 0)
+    for(EntityIter iter = m_entities.begin();iter != m_entities.end();++iter)
     {
-        for(int i = 0;i < m_numEntities;i++)
+        if(iter->second)
         {
-            if(m_entities[i] == 0)
-            {
-                delete m_entities[i];
-            }
+            delete iter->second;
+            iter->second = 0;
         }
-        delete []m_entities;
-        m_entities = 0;
     }
 }
 
@@ -169,25 +140,20 @@ void Level::Draw()
         }
     }
     
-    if(!gWorld.IsInLevelEditor())
+    for(EntityIter iter = m_entities.begin();iter != m_entities.end();++iter)
     {
-        for(int i = 0;i < m_numEntities;i++)
-        {
-            m_entities[i]->Draw(gWorld.GetFrameTime());
-        }
+        iter->second->Draw(gWorld.GetFrameTime());
     }
 }
 
 bool Level::CollisionWithWalls(Entity *entity)
 {
-    for(int i = 0;i < m_numEntities;i++)
+    for(EntityIter iter = m_entities.begin();iter != m_entities.end();++iter)
     {
-        Wall *pWall = static_cast<Wall*>(m_entities[i]);
+        Wall *pWall = static_cast<Wall*>(iter->second);
         //Vec2D between = pWall->m_endPoint - pWall->m_startPoint;
-        Vec2D size = pWall->m_endPoint - pWall->m_startPoint;
-        Vec2D pos = pWall->m_startPoint + (size * 0.5);
        
-        if(GetZoneFromPoint(pos + size) == GetZoneFromPoint(entity->GetPosition()))
+        if(GetZoneFromPoint(pWall->GetPosition()) == GetZoneFromPoint(entity->GetPosition()))
         {     
            /* Vec2D toWall = pos - entity->GetPosition();
             Real dist = toWall.Magnitude();*/
@@ -206,7 +172,8 @@ bool Level::CollisionWithWalls(Entity *entity)
             newPos *= distCircle;
             newPos += entity->GetPosition();*/
 
-            if(RectangleIntersectCircle(pos, size, entity->GetPosition(), entity->m_halfWidth))
+            Vec2D size(pWall->m_halfWidth, pWall->m_halfHeight);
+            if(RectangleIntersectCircle(pWall->GetPosition(), size, entity->GetPosition(), entity->m_halfWidth - 2))
             {
                 return true;
             }
@@ -223,4 +190,119 @@ int Level::GetZoneFromPoint(const Vec2D &point)
     square.y = point.y / gWorld.GetParams().m_zoneHeight;
 
     return (unsigned)(square.x) + 3*(unsigned)(square.y);
+}
+
+int Level::GetCellFromPoint(const Vec2D &point)
+{
+    Vec2D square;
+    square.x = point.x / m_gridSize.x;
+    square.y = point.y / m_gridSize.y;
+
+    return (unsigned)(square.x) + m_gridExtentX*(unsigned)(square.y);
+}
+
+void Level::AddEntity(int cell, Entity *entity)
+{
+    EntityIter found = m_entities.find(cell);
+    if(found != m_entities.end())
+    {
+        std::cout << "Cell is occupied.\n";
+    }
+    m_entities[cell] = entity;
+}
+
+bool Level::LoadLevelInfo()
+{
+    std::ifstream file(m_path + "/level.dat", std::ios::binary);
+    if(!file.is_open())
+    {
+        std::cout << "Could not find level.dat. A team of highly trained monkeys has been dispatched to deal with this situation. If you see them give them this fucking code: ";
+        for(int i = 0;i < 100;i++)
+        {
+            std::cout << sf::Randomizer::Random(48, 90);
+        }
+
+        std::cout << std::endl;
+
+        return false;
+    }
+
+    char numEntities;
+    file.read((char*)&numEntities, sizeof(char));
+    
+    for(int i = 0;i < numEntities;i++)
+    {
+        char type;
+        file.read(&type, sizeof(char));
+
+        Vec2D position;
+        Real rotation;
+        file.read((char*)&position, sizeof(Vec2D));
+        file.read((char*)&rotation, sizeof(Real));
+
+        Entity *entity = 0;
+        switch(type)
+        {
+        case ENTITY_WALL:
+            entity = new Wall;
+            break;
+        case ENTITY_SPAWN_POINT:
+            entity = new EnemySpawnPoint;
+            break;
+        default:
+            std::cout << "Unsupported type of entity in level.\n";
+        };
+
+        if(entity)
+        {
+            entity->SetPosition(position);
+            entity->GetSprite().SetRotation(rotation);
+
+            m_entities[GetCellFromPoint(position)] = entity;
+        }
+    }
+
+    file.close();
+
+    return true;
+}
+
+void Level::SaveLevelInfo()
+{
+    std::ofstream file(m_path + "/level.dat", std::ios::binary);
+    if(!file.is_open())
+    {
+        std::cout << "Failed to save level. Check if level is open in another instance.\n";
+        return;
+    }
+
+    char numberOfEntities = m_entities.size();
+    file.write((const char*)&numberOfEntities, sizeof(char));
+    for(EntityIter iter = m_entities.begin();iter != m_entities.end();++iter)
+    {
+        char type = (char)iter->second->GetType();
+        Real rotation = iter->second->GetRotation();
+
+        file.write((char*)&type, sizeof(char));
+        file.write((char*)&iter->second->GetPosition(), sizeof(Vec2D));
+        file.write((char*)&rotation, sizeof(Real));
+    }
+
+    file.close();
+}
+
+Vec2D Level::GetCenterOfCell(int cell)
+{
+    //return (unsigned)(square.x) + m_gridExtentX*(unsigned)(square.y);
+    Real offsetX = (Real)cell - (Real)m_gridExtentX;
+    return Vec2D(m_gridSize.x * (offsetX < 0 ? cell : offsetX) + (m_gridSize.x * (Real)0.5), m_gridSize.y * (unsigned)(cell / m_gridExtentX) + (m_gridSize.y * 0.5));
+}
+
+Vec2D Level::SnapToCenter(const Vec2D &point)
+{
+    Vec2D square;
+    square.x = point.x / m_gridSize.x;
+    square.y = point.y / m_gridSize.y;
+
+    return Vec2D((unsigned)square.x * m_gridSize.x + (m_gridSize.x * 0.5), (unsigned)square.y * m_gridSize.y + (m_gridSize.y * 0.5));
 }

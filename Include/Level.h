@@ -17,13 +17,21 @@
 #define LEVEL_H_
 
 #include <SFML/Graphics.hpp>
+#include <map>
 #include "Vec2D.h"
 #include "Entity.h"
+
 
 class Level
 {
 public:
+    ~Level();
+
     void Init(const char *levelName);
+
+    bool LoadLevelInfo();
+
+    void SaveLevelInfo();
 
     void Destroy();
 
@@ -31,14 +39,20 @@ public:
 
     int GetZoneFromPoint(const Vec2D &point);
 
+    int GetCellFromPoint(const Vec2D &point);
+
+    Vec2D GetCenterOfCell(int cell);
+
+    Vec2D SnapToCenter(const Vec2D &point);
+
+    /**
+     * Add entity to cell.
+     */
+    void AddEntity(int cell, Entity *entity);
+
     const std::string &GetPathToLevel()
     {
         return m_path;
-    }
-
-    Entity **GetEntities()
-    {
-        return m_entities;
     }
 
     bool CollisionWithWalls(Entity *entity);
@@ -48,8 +62,13 @@ public:
 private:
     sf::Sprite m_zones[9];///< Zones of the scrolling background. Each zone is 1024x1024 pixels wide.
     Vec2D m_zonePositions[9];///< Positions of the zones.
-    Entity **m_entities;///< Dynamic array.
-    int m_numEntities;///< Number of entities in the array of pointers to entities.
+    Vec2D m_gridSize;///< Grid size.
+    int m_gridExtentX;///< How many grid cells in the x direction
+    int m_gridExtentY;///< How many grid cells in the y direction.
+
+    typedef std::map<int, Entity*>::iterator EntityIter;
+    std::map<int, Entity*> m_entities; ///< Entities, sorted by which cell they belong to.
+
     std::string m_path;///< Path to level folder.
 };
 

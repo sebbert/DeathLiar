@@ -316,7 +316,7 @@ enum ContactSides
 
 inline bool RectangleIntersectCircle(const Vec2D &boxPos, const Vec2D &size, const Vec2D &pos, Real radius)
 {
-    if(abs(pos.x - boxPos.x) < radius + size.x * (Real)0.5 && abs(pos.y - boxPos.y) < radius + size.y * (Real)0.5)
+    if(abs(pos.x - boxPos.x) < radius + size.x && abs(pos.y - boxPos.y) < radius + size.y)
     {
         return true;
     }
@@ -324,15 +324,6 @@ inline bool RectangleIntersectCircle(const Vec2D &boxPos, const Vec2D &size, con
     return false;
 }
 
-inline int TestVertexRegion(Real cx, Real cy, Real vx, Real vy, Real ex, Real ey, Real &ix, Real &iy)
-{
-
-}
-
-inline int TestEdgeRegion(Real cx, Real cy, Real vx, Real vy, Real ex, Real ey, Real &ix, Real &iy)
-{
-
-}
 /**
  * Returns a SFML vector of a vector.
  * @param vec The vector to create a SFML vector of.
