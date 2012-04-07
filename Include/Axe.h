@@ -25,7 +25,7 @@ public:
     Axe() : Weapon(1, 1, 0)
     {
         m_hitOffset = Vec2D(36, -35);
-        SetSprite("weapon_axe.png");
+        SetSprite("Media/weapon_axe.png");
     }
     void Fire();
     void StopFire();

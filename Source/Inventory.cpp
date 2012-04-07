@@ -15,15 +15,18 @@
 */
 
 #include "Inventory.h"
+#include "World.h"
 #include <string.h>
 
 Inventory::Inventory()
 {
+    m_index = 0;
     Clear();
 }
 
 void Inventory::AddItem(Weapon *item)
 {
+    // I know I could've used a loop, but this is faster.
          if(!m_items[0]) m_items[0] = item;
     else if(!m_items[1]) m_items[1] = item;
     else if(!m_items[2]) m_items[2] = item;
@@ -43,4 +46,34 @@ void Inventory::RemoveItem(Weapon* item)
 void Inventory::Clear()
 {
     memset(m_items, 0, 5 * sizeof(Weapon *));
+}
+
+Weapon *Inventory::Next()
+{
+    return m_items[NextIndex()];
+}
+
+Weapon *Inventory::Previous()
+{
+    return m_items[PreviousIndex()];
+}
+
+int Inventory::NextIndex()
+{
+    do {
+        m_index++;
+        if(m_index >= 5) m_index = 0;
+    } while(m_items[m_index] != 0);
+
+    return m_index;
+}
+
+int Inventory::PreviousIndex()
+{
+    do {
+        m_index--;
+        if(m_index < 0) m_index = 4;
+    } while(m_items[m_index] != 0);
+
+    return m_index;
 }

@@ -13,7 +13,7 @@ void Pistol::Fire()
 {
     if(m_clock.GetElapsedTime() > (Real)m_secBetweenShots)
     {
-        Real rad = DegToRad(angle);
+        Real rad = DegToRad(m_angle);
         Vec2D force = m_heading.Opposite() * 500.0;
         Vec2D pos = m_position + Vec2D(35, 20).Rotate(-rad);
 //        Vec2D toCenter = pos - gWorld.GetPlayer().GetPosition();

@@ -30,10 +30,8 @@ public:
 
     void Fire();
     
-    Real angle;
     sf::Clock m_clock;
     float m_secBetweenShots;
-    Vec2D m_heading;
 };
 
 #endif

@@ -17,6 +17,8 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include "Weapon.h"
+
 class Inventory
 {
 public:
@@ -30,14 +32,32 @@ public:
     {
         return m_items;
     }
-    
+
     Weapon *GetItem(int index)
     {
         return m_items[index];
     }
 
+    Weapon *GetSelected()
+    {
+        return m_items[m_index];
+    }
+
+    int GetIndex()
+    {
+        return m_index;
+    }
+
+    Weapon *Next();
+    Weapon *Previous();
+
+    int NextIndex();
+    int PreviousIndex();
+
 private:
     Weapon *m_items[5];
+
+    int m_index;
 };
 
 #endif /* INVENTORY_H */

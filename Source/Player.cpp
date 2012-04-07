@@ -20,6 +20,7 @@
 #include "Entity.h"
 #include "World.h"
 #include "GameMaster.h"
+#include "Weapon.h"
 
 Player::Player()
 {
@@ -31,7 +32,8 @@ void Player::Init()
 {
     m_speed = gWorld.GetParams().m_playerSpeed;
     m_position = gWorld.GetWindowCenter();
-    m_currentWeapon = &m_pistol;
+    m_inventory.AddItem(&m_axe);
+    m_currentWeapon = m_inventory.GetSelected();
     m_halfWidth -= 10;
 }
 
@@ -57,7 +59,7 @@ void Player::HandleEvents(sf::Event &event)
         }
     }
 
-    if(event.Type == sf::Event::KeyReleased)
+    else if(event.Type == sf::Event::KeyReleased)
     {
         if(event.Key.Code == sf::Key::A || event.Key.Code == sf::Key::D)
         {
@@ -69,7 +71,7 @@ void Player::HandleEvents(sf::Event &event)
         }
     }
 
-    if(event.Type == sf::Event::MouseButtonPressed)
+    else if(event.Type == sf::Event::MouseButtonPressed)
     {
         //Fire weapon, or use weapon if mouse button is pressed.
         if(event.MouseButton.Button == sf::Mouse::Left)
@@ -78,7 +80,7 @@ void Player::HandleEvents(sf::Event &event)
         }
     }
 
-    if(event.Type == sf::Event::MouseMoved)
+    else if(event.Type == sf::Event::MouseMoved)
     {
         Vec2D mousePos((Real)event.MouseMove.X, (Real)event.MouseMove.Y);
 
@@ -86,14 +88,26 @@ void Player::HandleEvents(sf::Event &event)
  
         float angle = (float)RadToDeg(AngleBetweenPoints(playerPos, mousePos)) + (Real)90.0;
 
-        m_sprite.SetRotation(angle);
-        m_pistol.GetSprite().SetRotation(angle);
-        m_pistol.angle = angle;
+        m_currentWeapon->GetSprite().SetRotation(angle);
+        m_currentWeapon->m_angle = angle;
 
         m_heading = playerPos - mousePos;
         m_heading.Normalize();
 
-        m_pistol.m_heading = m_heading;
+        m_currentWeapon->m_heading = m_heading;
+    }
+
+    else if(event.Type == sf::Event::MouseWheelMoved)
+    {
+        if(event.MouseWheel.Delta > 0)
+        {
+            m_currentWeapon = m_inventory.Next();
+        }
+
+        else if(event.MouseWheel.Delta < 0)
+        {
+            m_currentWeapon = m_inventory.Previous();
+        }
     }
 }
 
@@ -133,8 +147,8 @@ void Player::Update(Real duration)
         m_position.y = gWorld.GetLevel().m_levelHeight - m_halfHeight;
     }
 
-    m_pistol.GetPosition() = m_position;
-    m_pistol.Draw(duration);
+    m_currentWeapon->GetPosition() = m_position;
+    m_currentWeapon->Draw(duration);
 
     gGameMaster.ResolveCollision(this);
     if(m_health <= 0)

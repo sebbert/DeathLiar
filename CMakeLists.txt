@@ -35,7 +35,8 @@ set(HDRS
 	${INC_PATH}/World.h
 	${INC_PATH}/Weapon.h
 	${INC_PATH}/Axe.h
-	${INC_PATH}/LevelEditor.h)
+	${INC_PATH}/LevelEditor.h
+	${INC_PATH}/Inventory.h)
 
 set(SRCS 
 	${SRC_PATH}/PathFinding.cpp
@@ -54,7 +55,8 @@ set(SRCS
 	${SRC_PATH}/Player.cpp
 	${SRC_PATH}/Weapon.cpp
 	${SRC_PATH}/Axe.cpp
-	${SRC_PATH}/LevelEditor.cpp)
+	${SRC_PATH}/LevelEditor.cpp
+	${SRC_PATH}/Inventory.cpp)
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Bin/")
 

@@ -213,7 +213,7 @@ void Level::AddEntity(int cell, Entity *entity)
 
 bool Level::LoadLevelInfo()
 {
-    std::ifstream file(m_path + "/level.dat", std::ios::binary);
+    std::ifstream file((m_path + "/level.dat").c_str(), std::ios::binary);
     if(!file.is_open())
     {
         /*std::cout << "Could not find level.dat. A team of highly trained monkeys has been dispatched to deal with this situation. If you see them give them this fucking code: ";
@@ -269,7 +269,7 @@ bool Level::LoadLevelInfo()
 
 void Level::SaveLevelInfo()
 {
-    std::ofstream file(m_path + "/level.dat", std::ios::binary);
+    std::ofstream file((m_path + "/level.dat").c_str(), std::ios::binary);
     if(!file.is_open())
     {
         std::cout << "Failed to save level. Check if level is open in another instance.\n";

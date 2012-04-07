@@ -18,7 +18,8 @@
 
 #include "Entity.h"
 #include "Weapon.h"
-#include "Pistol.h"
+#include "Axe.h"
+#include "Inventory.h"
 #include <SFML/Graphics.hpp>
 
 /**
@@ -64,13 +65,15 @@ public:
     }
 private:
     Weapon *m_currentWeapon;///< Current weapon of player.
-    Pistol m_pistol;
+    Axe m_axe;
 
     Vec2D m_velocity;///< Velocity of player.
     Vec2D m_heading;///< Heading of a player.
     Vec2D m_levelPos;///< Level pos.
 
     Real m_speed;///< Speed of player.
+
+    Inventory m_inventory; ///< The player's inventory.
 
     enum {LEFT = 1, RIGHT=2, UP=4, DOWN=8};
     char m_freeMovement;

@@ -87,6 +87,9 @@ public:
     int m_WeaponDamage; ///< How much damage the weapon takes each hit.
     bool m_isHitting;   ///< Wether the weapon is currently hitting or not.
 
+    Real m_angle;
+    Vec2D m_heading;
+
 protected:
     Vec2D m_hitOffset;
 };
